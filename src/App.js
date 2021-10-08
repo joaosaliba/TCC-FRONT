@@ -1,38 +1,47 @@
-import './App.css';
 import axios from "axios";
-import { Component } from 'react';
+import React, { useEffect, useState } from "react";
 
-
-class App extends Component {
-  async componentDidMount() {
+ function App() {
+  const [lista,setLista] =  useState({})
+ 
+  async function getUser() {
     try {
-      axios.post('http://0.0.0.0:8040/Aluno/',{
-        nome: "CAIO GABRIEL ARAUJO MEDEIROS",
-        email: "caio@gmail.com",
-        birthdate: "1996-12-22",
-        phonenumber: "+5561987475896",
-        // picture: "./public/logo192.png",
-        user_type: "Aluno",
-        cpf: "56480946120",
-        password:"33525719J",
-        password_confirmation:"33525719J",
+      await axios.get('http://0.0.0.0:8040/Aluno/'
+    //   {
+    //     nome: "Joao",
+    //     email: "joao@gmail.com",
+    //     birthdate: "1996-12-22",
+    //     phonenumber: "+5561987475896",
+    //     // picture: "./public/logo192.png",
+    //     user_type: "Aluno",
+    //     cpf: "56480946120",
+    //     password:"33525719J",
+    //     password_confirmation:"33525719J",
         
-    })
+    // }
+    )
       .then(res=>{
-        console.log(res)
+       setLista(res.data)
+        console.log(lista)
       }).catch(e=>{
-        console.error(e.response.data)
+        console.log(e.response  )
       });
       
       
     } catch (e) {
       console.log(e);
-  }
+  } }
 
-  }
-  render(){
-    return <h1> oi</h1>
-  }
+    
+  useEffect(() => {
+      getUser();
+    }, []);
+
+  return <div> 
+      {lista.map(l=><div>{l.nome}</div>)}
+   </div>
+    
+  
 }
 
 export default App;
