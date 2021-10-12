@@ -1,0 +1,17 @@
+
+
+article[rede-back]::before, div[back-rede]::before, section[back-rede]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    pointer-events: none;
+    height: 100%;
+    /* background-color: #555; */
+    background-image: url('../img/background.jpg');
+    /* background-repeat: repeat; */
+    background-size: 100%;
+    /* border-bottom-left-radius: 2.5rem; */
+  }
