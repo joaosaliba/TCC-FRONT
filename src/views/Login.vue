@@ -12,7 +12,7 @@
               id="login"
               aria-describedby="usuario"
               placeholder="Seu login"
-              v-model="usuario.login"
+              v-model="usuario.email"
             />
             <div class="mb-1"></div>
             <input
@@ -22,14 +22,14 @@
               id="senha"
               aria-describedby="senha"
               placeholder="Sua senha"
-              v-model="usuario.senha"
+              v-model="usuario.password"
               @keyup.enter="login"
             />
             <div class="mt-1" id="botaoAutenticar">
               <button
                 type="button"
                 class="btn btn-primary btn-block"
-                @click.prevent="login"
+                @click.prevent="login()"
               >
                 Login
               </button>
@@ -41,17 +41,27 @@
 </template>
 
 <script>
+
 export default {
   name: "Login",
   data() {
     return {
       auth: "",
       usuario: {
-        login: "",
-        senha: "",
+        email: "",
+        password: "",
+        device_type:"ANDROID",
+        device_id:"device-id-ficticio"
       },
     };
   },
+  methods:{
+    login(){
+      this.$store.dispatch("logarUsuario",this.usuario).then(response=>{
+         this.$store.dispatch("getUsuario")
+      })
+    }
+  }
 };
 </script>
 
