@@ -1,10 +1,14 @@
 <template>
   <div>
     <div back-rede>
-        <div id="autentica">
-          <h2>Felicidade ES</h2>
+    <img alt="logo " id="logo" src="../assets/img/logo.svg">
+    
+       <div id="autentica">
 
           <div class="mb-1">
+           <label for="login">
+             <b>Login</b>
+           </label>
             <input
               type="text"
               class="form-control"
@@ -14,7 +18,10 @@
               placeholder="Seu login"
               v-model="usuario.email"
             />
-            <div class="mb-1"></div>
+            <div class="mb-2"></div>
+                 <label for="senha">
+             <b> Senha</b>
+           </label>
             <input
               type="password"
               class="form-control"
@@ -31,7 +38,7 @@
                 class="btn btn-primary btn-block"
                 @click.prevent="login()"
               >
-                Login
+                Entrar
               </button>
             </div>
           </div>
@@ -71,18 +78,25 @@ export default {
 <style>
 #autentica {
   font-size: 16px;
-  padding: 40px 40px 20px 40px;
+  padding: 20px 40px 20px 40px;
   background-color: #fff;
   width: 500px;
-  text-align: center;
+  text-align: left;
   margin: 0 auto;
-  margin-top: 10%;
-  border-radius: 30px;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  @media screen and (max-width: 400px) {
-    width: 80%;
-    
-  }
+  margin-top: 1%;
+  border-radius: 50px;
+  opacity: 0.79;
   
+  
+}
+#logo{
+  margin-top: 66px;
+  text-align: center;
+  position: relative;
+}
+#botaoAutenticar{
+  border-radius: 52px;
+  width: 80px;
+  background-color: #0B4F6C;
 }
 </style>
