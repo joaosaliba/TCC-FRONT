@@ -1,43 +1,52 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      Felicidade
-      <router-link to="/">Feed</router-link> |
-      <router-link to="/about">Perfil</router-link> | 
-      <router-link to="/about">Grupos</router-link>  |
-      <router-link to="/about">Formulários</router-link>  |
-      <router-link to="/about">SEARCH</router-link>  |
-
-      <router-link to="/about">Login/Logout</router-link>  
-
-
-    </div> -->
-    <router-view/>
+    <Header />
+    <router-view />
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import Header from "@/components/Header.vue";
+
+export default {
+  name: "Home",
+  components: {
+    Header,
+  },
+};
+</script>
 
 <style lang="scss">
 @import "~@/assets/scss/vendors/bootstrap-vue/index";
 @import "assets/css/main.css";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  box-sizing: border-box;
+}
+body,
+ul,
+li,
+h1,
+h2,
+p {
+  padding: 0px;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+a {
+  list-style: none;
+  text-decoration: none;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+img {
+  max-width: 100%;
+  display: block;
 }
 </style>

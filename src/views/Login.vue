@@ -1,7 +1,7 @@
 <template>
   <div>
     <div back-rede>
-    <img alt="logo " id="logo" src="../assets/img/logo.svg">
+    <img alt="logo " class="logo" src="../assets/img/logo.svg">
     
        <div id="autentica">
 
@@ -32,10 +32,10 @@
               v-model="usuario.password"
               @keyup.enter="login"
             />
-            <div class="mt-1" id="botaoAutenticar">
+            <div class="mt-1" >
               <button
                 type="button"
-                class="btn btn-primary btn-block"
+                class="btn"
                 @click.prevent="login()"
               >
                 Entrar
@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #autentica {
   font-size: 16px;
   padding: 20px 40px 20px 40px;
@@ -89,14 +89,24 @@ export default {
   
   
 }
-#logo{
-  margin-top: 66px;
+.logo{
+  margin-top: 5%;
+  margin-left: 42%;
   text-align: center;
-  position: relative;
+  position: flex;
 }
-#botaoAutenticar{
-  border-radius: 52px;
-  width: 80px;
-  background-color: #0B4F6C;
+
+.btn{
+    display: block;
+    padding: 10px 30px;
+    background-color: #0B4F6C;
+    border-radius: 4px;
+    color: white;
+    text-align: right;
+    font-size: 1rem;
+    /* box-shadow: 0 4px 8px #00000029; */
+}
+.btn:hover{
+  transform: scale(1.1);
 }
 </style>
