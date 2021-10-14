@@ -1,5 +1,5 @@
 <template>
-  <div class="back-rede">
+  <div back-rede>
     <img alt="Vue logo" src="../assets/logo.png">
   </div>
 </template>

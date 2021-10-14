@@ -59,6 +59,9 @@ export default {
     login(){
       this.$store.dispatch("logarUsuario",this.usuario).then(response=>{
          this.$store.dispatch("getUsuario")
+         this.$router.push({
+           name: "Home"
+         })
       })
     }
   }
