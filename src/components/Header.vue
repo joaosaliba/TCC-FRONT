@@ -17,7 +17,7 @@
         Formulários
       </router-link>
       <router-link to="/login" class="btn">
-        Login / Logout
+        Logout
       </router-link>
     </nav>
   </header>

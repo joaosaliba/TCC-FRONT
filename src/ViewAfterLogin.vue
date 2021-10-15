@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div back-rede>
     <Header />
-    <router-view />
+      <router-view class="container-fluid"></router-view>
   </div>
 </template>
 
