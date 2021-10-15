@@ -4,6 +4,7 @@ import { api } from './api'
 
 Vue.use(Vuex)
 
+
 export default new Vuex.Store({
     state:{
         login: false,
@@ -30,15 +31,15 @@ export default new Vuex.Store({
     actions:{
         getUsuario(context){
             
-            api.get("Professor/").then(resp=>{
+            api.get("Aluno/").then(resp=>{
                 context.commit("UPDATE_LOGIN",true)
                 context.commit("UPDATE_USUARIO",resp.data)
-                console.log(this.state.usuario)
+                // console.log(this.state.usuario)
             }).catch(r=>{
-                api.get("Aluno/").then(resp=>{
+                api.get("Professor/").then(resp=>{
                     context.commit("UPDATE_LOGIN",true)
                     context.commit("UPDATE_USUARIO",resp.data)
-                    console.log(this.state.usuario)
+                    // console.log(this.state.usuario)
                 })
 
             })
@@ -51,10 +52,35 @@ export default new Vuex.Store({
             device_type:"ANDROID",
             device_id:"device-id-ficticio"
          }).then(response=>{
+            context.commit("UPDATE_LOGIN",true)
             window.localStorage.token =`JWT ${response.data.token}`
-            console.log( window.localStorage.token)
+            // console.log( window.localStorage.token)
          })
-     }
-    },
+     },
+   
+    logOutUsuario(context){
+        context.commit("UPDATE_USUARIO",{
+            usuario:{
+                id:"",
+                nome:"",
+                email:"",
+                birthdate:"",
+                phonenumber:"",
+                picture:"",
+                user_type:"",
+                cpg:"",           
+    
+            }
+        });
 
+        context.commit("UPDATE_LOGIN",false)
+        window.localStorage.removeItem("token")
+
+    }
+    },
+    getters: {
+        isLogged: state => {
+            return state.login
+          }
+    }
 })

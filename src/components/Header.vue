@@ -16,8 +16,8 @@
       <router-link to="/login">
         Formulários
       </router-link>
-      <router-link to="/login" class="btn">
-        Logout
+      <router-link to="/login"  >
+        <b-btn class="btn" @click=" logout()">Logout</b-btn>
       </router-link>
     </nav>
   </header>
@@ -26,6 +26,16 @@
 <script>
 export default {
   name: "Header",
+  methods:{
+     logout(){
+      this.$store.dispatch("logOutUsuario").then(response=>{
+        console.log("deu")
+         this.$router.push({
+           path: '/login',
+         })
+      })
+    }
+  }
 };
 </script>
 
