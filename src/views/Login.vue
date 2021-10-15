@@ -3,7 +3,7 @@
     <div back-rede>
       <img alt="logo " class="logo" src="../assets/img/logo.svg" />
 
-      <form>
+      <form class="form-style" >
         <div class="mb-1">
           <label for="login">
             <b>Login</b>
@@ -33,7 +33,7 @@
             <router-link to="/login">
               Esqueceu senha ou Login?
             </router-link>
-            <button type="button" class="btn" @click.prevent="login()">
+            <button type="button" class="btn mb-3" @click.prevent="login()">
               Entrar
             </button>
           </div>
@@ -93,13 +93,13 @@ export default {
   background-color: #ffffff;
   box-shadow: 0 3px 6px #00000029;
 }
-form {
+.form-style {
   display: grid;
   font-size: 30x;
   padding: 20px 40px 20px 40px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.79);
   border-radius: 50px;
-  opacity: 0.79;
+  /* opacity: 0.79; */
   max-width: 500px;
   width: auto;
   margin: 0 auto;
@@ -110,11 +110,15 @@ a {
   font-size: 30x;
   margin-top: 1%;
   color: #0b4f6c;
+  opacity: 1 !important;
+
 }
 .logo {
   margin: auto auto;
   margin-top: 5%;
   position: flex;
+  opacity: 1 !important;
+
 }
 
 .btn {
@@ -129,6 +133,8 @@ a {
   margin-right: 0%;
   /* margin-top: 5%; */
   /* box-shadow: 0 4px 8px #00000029; */
+  opacity: 1 !important;
+
 }
 
 .btn:hover {
@@ -153,5 +159,7 @@ a {
   display: table;
   float: left;
   width: 50px;
+  opacity: 1 !important;
+
 }
 </style>
