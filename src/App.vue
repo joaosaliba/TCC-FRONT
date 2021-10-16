@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" back-rede>
     <router-view />
   </div>
 </template>
@@ -34,8 +34,7 @@ ul {
   list-style: none;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: Roboto;
 }
 a {
   list-style: none;

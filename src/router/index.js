@@ -4,6 +4,8 @@ import Login from '../views/Login.vue'
 import ViewAfterLogin from "@/ViewAfterLogin.vue"
 import Router from "@/router/router.js"
 import store from '@/utils/store.js'
+import CadastroUsuario from "../views/CadastroUsuario.vue";
+
 
 
 Vue.use(VueRouter)
@@ -14,6 +16,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: "/novoUsuario",
+    name: "CadastroUsuario",
+    component: CadastroUsuario,
   },
   
   {

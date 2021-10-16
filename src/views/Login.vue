@@ -54,6 +54,11 @@
             />
             Entrar com Facebook
         </b-button>
+        <router-link to="/novoUsuario">
+        <b-button class="redes">
+              Novo Usuário
+        </b-button>
+        </router-link>
       </form>
     </div>
   </div>
