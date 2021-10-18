@@ -1,5 +1,7 @@
 <template>
   <div>
+    <Alerta ref="alerta"/>
+
     <h2 class="d-flex flex-row"></h2>
 
     <b-card class="form-style">
@@ -28,7 +30,7 @@
             label-for="input-2"
           >
             <b-form-input
-              id="input-1"
+              id="input-2"
               v-model="form.nome"
               type="text"
               placeholder="Nome Completo"
@@ -43,7 +45,7 @@
                 label-for="input-3"
               >
                 <b-form-input
-                  id="input-1"
+                  id="input-3"
                   v-model="form.birthdate"
                   type="date"
                   required
@@ -116,12 +118,12 @@
             </b-col>
             <b-col>
               <b-form-group
-                id="input-group-7"
+                id="input-group-8"
                 label="Confirmação de Senha:"
-                label-for="input-7"
+                label-for="input-8"
               >
                 <b-form-input
-                  id="input-7"
+                  id="input-8"
                   v-model="form.password_confirmation"
                   type="password"
                   placeholder="Senha:"
@@ -161,7 +163,11 @@
 </template>
 
 <script>
+import Alerta from "@/components/Alerta.vue"
 export default {
+  components: {
+    Alerta
+  },
   data() {
     return {
       form: {
@@ -190,7 +196,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e);
+         vm.mostrarMsgErro(e.response.data);
         });
     },
 
@@ -199,6 +205,11 @@ export default {
       vm.$router.push({
         name: "Login",
       });
+    },
+     mostrarMsgErro(msgErro) {
+      let vm = this;
+      let alertaComp = vm.$refs["alerta"];
+      alertaComp.mostraErroSimples("Erro", msgErro);
     },
   },
   computed: {
