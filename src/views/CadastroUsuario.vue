@@ -7,7 +7,7 @@
         Cadastro Aluno
       </b-card-title>
       <b-card-body>
-        <b-form @submit="criarEstudande">
+        <b-form  >
           <b-form-group
             id="input-group-1"
             label="Endereço de email:"
@@ -109,6 +109,9 @@
                   placeholder="Senha:"
                   required
                 />
+                <b-form-invalid-feedback :state="validation">
+                  Senha deve ser igual a confirmação de Senha
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col>
@@ -120,21 +123,35 @@
                 <b-form-input
                   id="input-7"
                   v-model="form.password_confirmation"
-                  type="password-confirmation"
+                  type="password"
                   placeholder="Senha:"
                   required
                 />
+                <b-form-invalid-feedback :state="validation">
+                  Senha deve ser igual a confirmação de Senha
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-row>
           <b-row cols="12">
             <b-col>
-              <b-button type="submit" variant="success" class="mr-3"
+              <b-button
+                variant="success"
+                size="lg"
+                 @click="criarEstudande()"
+                class="mr-3"
                 >Cadastrar</b-button
               >
             </b-col>
             <b-col>
-              <b-button type="reset" variant="danger">Resete</b-button>
+              <b-button type="reset" size="lg" variant="danger"
+                >Resete</b-button
+              >
+            </b-col>
+            <b-col>
+              <b-button variant="primary" size="lg" @click="voltarParaLogin()"
+                >Voltar</b-button
+              >
             </b-col>
           </b-row>
         </b-form>
@@ -161,7 +178,7 @@ export default {
     };
   },
   methods: {
-    criarEstudande() {
+     criarEstudande() {
       const vm = this;
       vm.form.user_type = "Aluno";
       vm.$api
@@ -173,8 +190,20 @@ export default {
           });
         })
         .catch((e) => {
-          console.error(e.data);
+          console.log(e);
         });
+    },
+
+    voltarParaLogin() {
+      const vm = this;
+      vm.$router.push({
+        name: "Login",
+      });
+    },
+  },
+  computed: {
+    validation() {
+      return this.form.password == this.form.password_confirmation;
     },
   },
 };

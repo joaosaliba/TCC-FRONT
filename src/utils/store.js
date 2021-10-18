@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { api } from "./api";
+import createPersistedState from 'vuex-persistedstate';
+
 
 Vue.use(Vuex);
 
@@ -80,6 +82,8 @@ export default new Vuex.Store({
       context.commit("UPDATE_LOGIN", false);
       context.commit("UPDATE_ADMIN", false);
       window.localStorage.removeItem("token");
+      window.localStorage.removeItem("logged");
+
     },
   },
   getters: {
@@ -89,5 +93,7 @@ export default new Vuex.Store({
     isAdmin: (state) => {
       return state.admin;
     },
+    
   },
+  plugins: [createPersistedState()]
 });
