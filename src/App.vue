@@ -34,7 +34,7 @@ ul {
   list-style: none;
 }
 body {
-  font-family: Roboto;
+  font-family: sans-serif;
 }
 a {
   list-style: none;

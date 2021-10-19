@@ -29,7 +29,6 @@ export default {
   methods:{
      logout(){
       this.$store.dispatch("logOutUsuario").then(response=>{
-        console.log("deu")
          this.$router.push({
            path: '/login',
          })
