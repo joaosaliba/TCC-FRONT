@@ -1,47 +1,67 @@
 <template>
   <div class="sideMenu">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
-    <div>
-      <h1>FOTO</h1>
+    <div class="foto-perfil">
+      <img :src='user.picture' alt="foto-perfil mb-4">
     </div>
     <div>
-      <h4>NOME Cidadão</h4>
+      <h4>{{user.nome}}</h4>
     </div>
     <div>
-      <h5>Tipo Perfil</h5>
+      <h5>{{user.user_type}}</h5>
     </div>
     <div>
       Editar Pefil
     </div>
-      <div class="box">
-        <h2>Forúm</h2>
-        <b-row class="justify-content-start">
-          Teste
-        </b-row>
-        <b-row>
-          Teste
-        </b-row>
-        <b-row>
-          Teste
-        </b-row>
-        <h2>Meus Grupo</h2>
-        <b-row>
-          Teste
-        </b-row>
-        <b-row>
-          Teste
-        </b-row>
-        <b-row>
-          Teste
-        </b-row>
-        <h2>Formulários</h2>
-      </div>
+    <div class="box">
+      <h2>Forúm</h2>
+      <b-row class="justify-content-start">
+        Teste
+      </b-row>
+      <b-row>
+        Teste
+      </b-row>
+      <b-row>
+        Teste
+      </b-row>
+      <h2>Meus Grupo</h2>
+      <b-row>
+        Teste
+      </b-row>
+      <b-row>
+        Teste
+      </b-row>
+      <b-row>
+        Teste
+      </b-row>
+      <h2>Formulários</h2>
+    </div>
     <!-- </b-col> -->
   </div>
 </template>
 
 <script>
-export default {};
+import store from '@/utils/store.js'
+
+export default {
+
+  name: "SideMenu",
+  data() {
+    return {
+      user: {},
+    };
+  },
+  methods: {
+    getUser(){
+      this.user=store.getters.getUser
+      console.log(this.user)
+    }
+
+  },
+  mounted(){
+    this.getUser()
+  }
+};
 </script>
 
 <style>
@@ -64,5 +84,9 @@ export default {};
   margin-top: 10%;
   text-align: left;
   align-items: center;
+}
+.foto-perfil{
+  padding: 10 10;
+  margin: ;
 }
 </style>

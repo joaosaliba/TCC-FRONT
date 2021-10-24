@@ -165,6 +165,7 @@
 <script>
 import Alerta from "@/components/Alerta.vue"
 export default {
+  name:"CadastroUsuario",
   components: {
     Alerta
   },
@@ -188,7 +189,7 @@ export default {
       const vm = this;
       vm.form.user_type = "Aluno";
       vm.$api
-        .post("Aluno/", vm.form)
+        .post("aluno/", vm.form)
         .then((resp) => {
           console.log(resp.data);
           vm.$router.push({

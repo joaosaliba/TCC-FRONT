@@ -35,14 +35,14 @@ export default new Vuex.Store({
   actions: {
     getUsuario(context) {
       api
-        .get("Aluno/")
+        .get("aluno/")
         .then((resp) => {
           context.commit("UPDATE_LOGIN", true);
-          context.commit("UPDATE_USUARIO", resp.data);
+          context.commit("UPDATE_USUARIO", resp.data[0]);
           // console.log(this.state.usuario)
         })
         .catch((r) => {
-          api.get("Professor/").then((resp) => {
+          api.get("professor/").then((resp) => {
             context.commit("UPDATE_LOGIN", true);
             context.commit("UPDATE_ADMIN", true);
             context.commit("UPDATE_USUARIO", resp.data);
@@ -75,7 +75,7 @@ export default new Vuex.Store({
           phonenumber: "",
           picture: "",
           user_type: "",
-          cpg: "",
+          cpf: "",
         },
       });
 
@@ -92,6 +92,9 @@ export default new Vuex.Store({
     },
     isAdmin: (state) => {
       return state.admin;
+    },
+    getUser: (state) =>{
+      return state.usuario
     },
     
   },
