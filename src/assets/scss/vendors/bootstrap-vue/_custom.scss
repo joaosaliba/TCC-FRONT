@@ -65,7 +65,7 @@ $enable-hover-media-query:                    false !default; // Deprecated, no 
 $enable-grid-classes:                         true !default;
 $enable-pointer-cursor-for-buttons:           true !default;
 $enable-print-styles:                         true !default;
-$enable-responsive-font-sizes:                false !default;
+$enable-responsive-font-sizes:                true !default;
 $enable-validation-icons:                     true !default;
 $enable-deprecation-messages:                 true !default;
 
@@ -88,7 +88,7 @@ $sizes: () !default;
 // Body
 //
 // Settings for the `<body>` element.
-$body-bg:                   $white !default;
+$body-bg:                   #f7efc9 !default;
 $body-color:                $gray-900 !default;
 
 
@@ -235,7 +235,7 @@ $font-family-base:            $font-family-sans-serif !default;
 
 // $list-inline-padding:         .5rem !default;
 
-// $mark-bg:                     #fcf8e3 !default;
+$mark-bg:                     #f7efc9 !default;
 
 // $hr-margin-y:                 $spacer !default;
 

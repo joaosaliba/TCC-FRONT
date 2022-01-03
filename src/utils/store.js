@@ -18,7 +18,7 @@ export default new Vuex.Store({
       phonenumber: "",
       picture: "",
       user_type: "",
-      cpg: "",
+      cpf: "",
     },
   },
   mutations: {
@@ -33,25 +33,26 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getUsuario(context) {
-      api
+     getUsuario(context) {
+        api
         .get("aluno/")
         .then((resp) => {
           context.commit("UPDATE_LOGIN", true);
           context.commit("UPDATE_USUARIO", resp.data[0]);
-          // console.log(this.state.usuario)
+          console.log(resp.data[0])
         })
         .catch((r) => {
           api.get("professor/").then((resp) => {
             context.commit("UPDATE_LOGIN", true);
             context.commit("UPDATE_ADMIN", true);
-            context.commit("UPDATE_USUARIO", resp.data);
+            context.commit("UPDATE_USUARIO", resp.data[0]);
             // console.log(this.state.usuario)
-          });
+
+          })
         });
     },
-    logarUsuario(context, payload) {
-      return api
+    async logarUsuario(context, payload) {
+        return await api
         .login({
           email: payload.email,
           password: payload.password,
@@ -60,6 +61,8 @@ export default new Vuex.Store({
         })
         .then((response) => {
           context.commit("UPDATE_LOGIN", true);
+          // context.commit("UPDATE_USUARIO", response.data.user);
+         
           window.localStorage.token = `JWT ${response.data.token}`;
           // console.log( window.localStorage.token)
         });

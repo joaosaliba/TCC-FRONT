@@ -2,17 +2,14 @@ article[rede-back]::before,
 div[back-rede]::before,
 section[back-rede]::before {
   content: "";
-  position: absolute;
+  position: fixed;
   top: -40%;
   left: -30%;
   width: 130%;
   height: 140%;
-  z-index: -1;
-  pointer-events: none;
-  background-color: #f7efc9;
-  background-image: url("../img/background.svg");
+  z-index: -10000;
+  background: url("../img/background.svg") ;
   background-repeat: no-repeat;
   background-size: 75%;
 
-  /* border-bottom-left-radius: 2.5rem; */
 }

@@ -2,16 +2,18 @@
   <div class="sideMenu">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
     <div class="foto-perfil">
-      <img :src='user.picture' alt="foto-perfil mb-4">
+      <img :src="user.picture" alt="foto-perfil mb-4" />
     </div>
     <div>
-      <h4>{{user.nome}}</h4>
+      <h4>{{ user.nome }}</h4>
     </div>
     <div>
-      <h5>{{user.user_type}}</h5>
+      <h5>{{ user.user_type }}</h5>
     </div>
     <div>
-      Editar Pefil
+      <b-btn @click ="showModal()"  class="btn-clear">
+        Editar Perfil
+      </b-btn>
     </div>
     <div class="box">
       <h2>Forúm</h2>
@@ -37,30 +39,38 @@
       <h2>Formulários</h2>
     </div>
     <!-- </b-col> -->
+  
+    <ModalEditarPerfil/>
   </div>
 </template>
 
 <script>
-import store from '@/utils/store.js'
+import store from "@/utils/store.js";
+import ModalEditarPerfil from '@/components/ModalEditarPerfil.vue'
 
 export default {
-
   name: "SideMenu",
+  props:["usuario"],
+  components:{   
+    ModalEditarPerfil
+    }
+  ,
   data() {
     return {
       user: {},
     };
   },
   methods: {
-    getUser(){
-      this.user=store.getters.getUser
-      console.log(this.user)
-    }
-
+    async getUser() {
+      this.user = store.getters.getUser
+    },
+    showModal() {
+       this.$bvModal.show('modal-perfil')
+       },
   },
-  mounted(){
-    this.getUser()
-  }
+  mounted() {
+    this.getUser();
+  },
 };
 </script>
 
@@ -68,15 +78,14 @@ export default {
 .sideMenu {
   margin: 3% 10px 10px 10px;
   position: relative;
-  padding: auto;
   text-align: center;
   z-index: 2;
   background-color: transparent;
-  width: 270px;
+  max-width: 250px;
+  width: auto;
   overflow-x: hidden;
   overflow-y: auto;
   color: #0b4f6c;
-  font-family: sans-serif;
 }
 .box {
   padding: 10 10;
@@ -85,8 +94,56 @@ export default {
   text-align: left;
   align-items: center;
 }
-.foto-perfil{
-  padding: 10 10;
-  margin: ;
+.foto-perfil {
+  display: flex;
+  border-radius: 15px;
+  padding: 10px 10px;
+  max-width: 240px;
+  width: auto;
+  max-height: 240px;
+  height: auto;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255);
+}
+.foto-perfil img {
+  border-radius: 15px;
+  max-width: 220px;
+  max-height: 220px;
+  height: auto;
+  width: auto;
+}
+.btn-clear {
+  background-color: transparent;
+  color: #0b4f6c;
+  border-color: transparent;
+  padding: 0;
+  font-size: 18px;
+}
+.btn-clear:hover {
+  text-decoration: underline;
+  background-color: transparent;
+  color: #0b4f6c;
+  border-color: transparent;
+  padding: 0;
+  font-size: 18px;
+}
+.btn-clear:focus {
+  text-decoration: underline;
+  background-color: transparent;
+  color: #0b4f6c;
+  border-color: transparent;
+  padding: 0;
+  font-size: 18px;
+  box-shadow: none;
+}
+.btn-clear:active {
+  text-decoration: underline;
+  background-color: transparent;
+  color: #0b4f6c;
+  border-color: transparent;
+  padding: 0;
+  font-size: 18px;
+  box-shadow: none;
 }
 </style>

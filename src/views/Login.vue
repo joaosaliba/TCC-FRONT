@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import store from "@/utils/store.js";
+
 export default {
   name: "Login",
   data() {
@@ -76,15 +78,17 @@ export default {
         device_type: "ANDROID",
         device_id: "device-id-ficticio",
       },
+      user:{}
     };
   },
   methods: {
-    login() {
+     login() {
       this.$store.dispatch("logarUsuario", this.usuario).then((response) => {
-        this.$store.dispatch("getUsuario");
-        this.$router.push({
+         this.$store.dispatch("getUsuario");
+      }).finally(()=>{
+           setTimeout(()=>{ this.$router.push({
           path: "/home",
-        });
+        })},50)
       });
     },
   },
@@ -120,7 +124,6 @@ a {
 }
 .logo {
   margin: auto auto;
-  margin-top: 5%;
   position: flex;
   opacity: 1 !important;
 
