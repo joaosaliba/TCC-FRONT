@@ -57,19 +57,20 @@ export default {
   ,
   data() {
     return {
-      user: {},
     };
   },
   methods: {
-    async getUser() {
-      this.user = store.getters.getUser
-    },
+
     showModal() {
        this.$bvModal.show('modal-perfil')
        },
   },
   mounted() {
-    this.getUser();
+  },
+  computed:{
+    user(){
+      return store.getters.getUser
+    }
   },
 };
 </script>
