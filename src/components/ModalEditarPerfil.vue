@@ -11,9 +11,8 @@
       hide-header
     >
       <div class="foto-perfil  center">
-        <img :src="user.picture" alt="foto-perfil mb-4" />
+        <img :src="user.picture.src" alt="foto-perfil mb-4" />
       </div>
-{{img}}
       <b-row>
         <b-col>
       <b-form-group label="Imagem de Perfil:" label-cols-sm="4">
@@ -21,8 +20,7 @@
           id="file-default"
           browse-text="Procurar Outra Imagem"
           placeholder="Trocar Imagem de perfil"
-          v-model="file"
-          v-bind="user.picture"
+          v-model="user.picture"
         ></b-form-file>
       </b-form-group>
       </b-col>
@@ -143,43 +141,63 @@ export default {
     return {
       modalShow: this.modal,
       file: null,
-      user: {},
-      img:{}
+      user: {
+        profile:{}
+      },
+      img:File
     };
   },
   methods:{
-    salvarAlteracoes(){
+
+    pegarUsuario(){
+      const vm = this
+        vm.$api
+        .get("aluno/")
+        .then((resp) => {
+          let person = resp.data[0]
+          var img = new Image();
+          img.src = person.picture
+          person.picture = img
+         this.user = person
+        })
+        .catch((r) => {
+           vm.$api.get("professor/").then((resp) => {
+        
+            let person = resp.data[0]
+          var img = new Image();
+          img.src = person.picture
+                  this.user = person
+         this.user = person
+
+
+          })
+        });
+    },
+      salvarAlteracoes(){
       const vm =this;
+
+console.log(typeof(vm.user.picture))
+console.log(vm.user.picture)
       vm.user.user_type = "Aluno";
+ 
       let obj ={
         id:this.user.id,
         nome:this.user.nome,
         email:this.user.email,
+        // picture:this.user.picture,
         birthdate:this.user.birthdate,
-        picture:this.user.picture,
         phonenumber:this.user.phonenumber
       }
       vm.$api
-        .put("aluno/"+this.user.id+"/", vm.user)
+        .put("aluno/"+this.user.id+"/", obj)
         .then((resp) => {
-       
+       console.log(resp)
         })
         .catch((e) => {
          vm.mostrarMsgErro(e.response.data);
         });
     },
-    getImg(){
-      let vm = this;
-      vm.$api
-        .get(this.user.picture)
-        .then((resp) => {
-          this.img = resp.data
-       
-        })
-        .catch((e) => {
-         vm.mostrarMsgErro(e.response.data);
-        });
-    },
+    
     mostrarMsgErro(msgErro) {
       let vm = this;
       let alertaComp = vm.$refs["alerta"];
@@ -188,7 +206,10 @@ export default {
 
   },
   mounted() {
+    this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
+    
+    
   },
 };
 </script>

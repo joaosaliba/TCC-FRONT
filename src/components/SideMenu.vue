@@ -2,7 +2,7 @@
   <div class="sideMenu">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
     <div class="foto-perfil">
-      <img :src="user.picture" alt="foto-perfil mb-4" />
+      <img :src="user.picture.src" alt="foto-perfil mb-4" />
     </div>
     <div>
       <h4>{{ user.nome }}</h4>
@@ -66,9 +66,12 @@ export default {
        },
   },
   mounted() {
+    this.$store.dispatch("getUsuario");
+    
   },
   computed:{
     user(){
+      
       return store.getters.getUser
     }
   },

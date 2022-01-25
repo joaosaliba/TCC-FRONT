@@ -27,6 +27,9 @@ export const api={
     post(endpoint,body){
         return axiosInstance.post(endpoint,body)
     },
+    patch(endpoint,body){
+        return axiosInstance.patch(endpoint,body)
+    },
     put(endpoint,body){
         return axiosInstance.put(endpoint,body)
     },
@@ -36,6 +39,7 @@ export const api={
     login(body){
         return axiosInstance.post("api-token-auth/",body)
     }
+
 
 }
 

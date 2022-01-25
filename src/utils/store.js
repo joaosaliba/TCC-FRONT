@@ -38,14 +38,23 @@ export default new Vuex.Store({
         .get("aluno/")
         .then((resp) => {
           context.commit("UPDATE_LOGIN", true);
-          context.commit("UPDATE_USUARIO", resp.data[0]);
+          let person = resp.data[0]
+          var img = new Image();
+          img.src = person.picture
+          
+          person.picture = img
+          context.commit("UPDATE_USUARIO",person);
           console.log(resp.data[0])
         })
         .catch((r) => {
           api.get("professor/").then((resp) => {
             context.commit("UPDATE_LOGIN", true);
             context.commit("UPDATE_ADMIN", true);
-            context.commit("UPDATE_USUARIO", resp.data[0]);
+            let person = resp.data[0]
+          var img = new Image();
+          img.src = person.picture
+          person.picture = img
+            context.commit("UPDATE_USUARIO", person);
             // console.log(this.state.usuario)
 
           })
