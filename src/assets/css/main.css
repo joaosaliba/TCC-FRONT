@@ -11,5 +11,6 @@ section[back-rede]::before {
   background: url("../img/background.svg") ;
   background-repeat: no-repeat;
   background-size: 75%;
+  background-attachment: fixed;
 
 }

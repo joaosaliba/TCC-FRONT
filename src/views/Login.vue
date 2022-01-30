@@ -87,7 +87,7 @@ export default {
          this.$store.dispatch("getUsuario");
       }).finally(()=>{
            setTimeout(()=>{ this.$router.push({
-          path: "/home",
+          path: "/feed",
         })},50)
       });
     },

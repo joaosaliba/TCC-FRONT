@@ -1,21 +1,20 @@
 <template>
   <header>
     <nav>
-      <router-link to="/home" class="logo">
+         <router-link to="/feed" class="logo">
         <img alt="logo " src="../assets/img/logo.svg" />
       </router-link>
-      <router-link to="/login">
-        Feed
-      </router-link>
-      <router-link to="/login">
-        Perfil
-      </router-link>
-      <router-link to="/login">
-        Grupos
-      </router-link>
-      <router-link to="/login">
-        Formulários
-      </router-link>
+<div v-for="(item, index) in items" :key="index">
+  
+            
+           <b-btn 
+           :visible="$route.path == item.rota"
+           class="btn-light" @click=" irPara(item.rota)"> {{ item.nome }} </b-btn> 
+           
+            
+            </div>
+   
+     
       <router-link to="/login"  >
         <b-btn class="btn" @click=" logout()">Logout</b-btn>
       </router-link>
@@ -26,7 +25,26 @@
 <script>
 export default {
   name: "Header",
+  data(){
+    return{
+      items:[
+        {nome:"Feed", rota:"/feed"},
+        {nome:"Perfil", rota:"/perfil"},
+        {nome:"Grupos", rota:"/grupos"},
+        {nome:"Formulários", rota:"/formularios"},
+
+      ]
+    }
+  },
   methods:{
+    irPara(rota){
+      
+         this.$router.push({
+           path: rota,
+         })
+      
+    },
+    
      logout(){
       this.$store.dispatch("logOutUsuario").then(response=>{
          this.$router.push({
@@ -50,7 +68,36 @@ export default {
   box-shadow: 0 4px 8px #00000029;
   cursor: pointer;
 }
+.btn-light {
+  display: block;
+  border-radius: 0px;
 
+  color: #212529;
+  border-radius: 9px;
+  background-color: #0b4f6c;
+  color: white;
+  box-shadow: 0 4px 8px #00000029;
+
+
+}
+.btn-light:hover {
+  color: #212529;
+  background-color: #0b4f6c;
+  border-color: #ffc107;
+  color: white;
+  box-shadow: 0 4px 8px #00000029;
+
+
+}
+.tipo-parcela-text {
+  color: white;
+  text-align: left;
+  padding: 3%;
+}
+
+.tipo-color {
+  background: sustentacao;
+}
 nav {
   display: flex;
   align-items: center;

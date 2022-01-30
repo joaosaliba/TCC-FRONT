@@ -1,11 +1,18 @@
-import Home from "../views/Home.vue";
+import Perfil from "../views/Perfil.vue";
+import Feed from "@/views/Feed.vue";
+
 
 
 export default [
   {
-    path: "/home",
-    name: "Home",
-    component: Home,
+    path: "/Perfil",
+    name: "Perfil",
+    component: Perfil,
+  },
+  {
+    path: "/feed",
+    name: "Feed",
+    component: Feed,
   },
   
 ];

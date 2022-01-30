@@ -17,6 +17,8 @@ export default {
 <style lang="scss">
 @import "~@/assets/scss/vendors/bootstrap-vue/index";
 @import "assets/css/main.css";
+@import "~@/assets/fonts/fontawesome/css/all.css";
+
 
 * {
   box-sizing: border-box;
