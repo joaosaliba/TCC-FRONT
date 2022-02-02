@@ -40,9 +40,12 @@ export default new Vuex.Store({
           context.commit("UPDATE_LOGIN", true);
           let person = resp.data[0]
           var img = new Image();
-          img.src = person.picture
+          img = person.picture
           
           person.picture = img
+          person = Object.assign({}, person, {
+            picture:{src:img}
+          })
           context.commit("UPDATE_USUARIO",person);
           console.log(resp.data[0])
         })
@@ -52,8 +55,13 @@ export default new Vuex.Store({
             context.commit("UPDATE_ADMIN", true);
             let person = resp.data[0]
           var img = new Image();
-          img.src = person.picture
+          img = person.picture
           person.picture = img
+
+            person = Object.assign({}, person, {
+              picture:{src:img}
+            })
+          
             context.commit("UPDATE_USUARIO", person);
             // console.log(this.state.usuario)
 
@@ -69,12 +77,13 @@ export default new Vuex.Store({
           device_id: "device-id-ficticio",
         })
         .then((response) => {
+          console.log(response.data)
           context.commit("UPDATE_LOGIN", true);
           // context.commit("UPDATE_USUARIO", response.data.user);
          
           window.localStorage.token = `JWT ${response.data.token}`;
           // console.log( window.localStorage.token)
-        });
+        }).catch(()=>context.commit("UPDATE_LOGIN", false));
     },
 
     logOutUsuario(context) {

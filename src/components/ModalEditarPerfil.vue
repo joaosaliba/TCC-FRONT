@@ -10,7 +10,7 @@
       class="mr-4 modal"
       hide-header
     >
-      <div class="foto-perfil  center">
+      <!-- <div class="foto-perfil  center">
         <img :src="user.picture.src" alt="foto-perfil mb-4" />
       </div>
       <b-row>
@@ -18,13 +18,34 @@
       <b-form-group label="Imagem de Perfil:" label-cols-sm="4">
         <b-form-file
           id="file-default"
-          browse-text="Procurar Outra Imagem"
-          placeholder="Trocar Imagem de perfil"
+          browse-text=" "
+          placeholder=""
           v-model="user.picture"
         ></b-form-file>
       </b-form-group>
       </b-col>
-      </b-row>
+      </b-row> -->
+ <div
+    class="image-input center"
+    :style="{ 'background-image': `url(${user.picture.src})` }"
+    @click="chooseImage"
+  >
+    <span
+      v-if="!user.picture.src"
+      class="placeholder"
+    >
+      Choose an Image
+    </span>
+    <input
+      class="file-input"
+      ref="fileInput"
+      type="file"
+      @input="onSelectFile"
+      accept="image/jpeg, image/png"
+    >
+  </div>
+
+
 
       <!-- <b-button class="justify-content-righ" @click="file = null"
         >Limpar Seleção</b-button
@@ -176,15 +197,13 @@ export default {
       salvarAlteracoes(){
       const vm =this;
 
-console.log(typeof(vm.user.picture))
-console.log(vm.user.picture)
       vm.user.user_type = "Aluno";
  
       let obj ={
         id:this.user.id,
         nome:this.user.nome,
         email:this.user.email,
-        // picture:this.user.picture,
+        picture:this.user.picture,
         birthdate:this.user.birthdate,
         phonenumber:this.user.phonenumber
       }
@@ -203,9 +222,29 @@ console.log(vm.user.picture)
       let alertaComp = vm.$refs["alerta"];
       alertaComp.mostraErroSimples("Erro", msgErro);
     },
+    chooseImage () {
+      this.$refs.fileInput.click()
+    },
+
+    onSelectFile () {
+      const input = this.$refs.fileInput
+      const files = input.files
+      if (files && files[0]) {
+        const reader = new FileReader
+        reader.onload = e => {
+          this.user = Object.assign({}, this.user, {
+  picture:{src:e.target.result}
+})
+          // this.user.picture.src = e.target.result
+        }
+        reader.readAsDataURL(files[0])
+        this.$emit('input', files[0])
+      }
+    }
 
   },
   mounted() {
+    // this.pegarUsuario()
     this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
     
@@ -214,11 +253,36 @@ console.log(vm.user.picture)
 };
 </script>
 
-<style>
+<style scoped>
 .modal-content {
   border-radius: 60px !important;
 }
 .center {
   margin: 0 auto;
 }
+.image-input{
+  display: block;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  background-size :cover;
+  background-position: center center;}
+
+.placeholder{
+  background: #F0F0F0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 18px;
+}
+.placeholder:hover{
+  background: #E0E0E0;
+  }
+
+.file-input{
+  display: none;
+  }
 </style>

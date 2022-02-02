@@ -27,6 +27,9 @@ const routes = [
     path: "/",
     component: ViewAfterLogin,
     children:  Router,
+    meta: {
+      requiresAuth: true
+    }
   
   }
 ]

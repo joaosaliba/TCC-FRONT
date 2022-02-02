@@ -57,6 +57,7 @@ export default {
   ,
   data() {
     return {
+      user:{}
     };
   },
   methods: {
@@ -67,14 +68,14 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getUsuario");
-    
+    this.user=store.getters.getUser
   },
-  computed:{
-    user(){
+  // computed:{
+  //   user(){
       
-      return store.getters.getUser
-    }
-  },
+  //     return store.getters.getUser
+  //   }
+  // },
 };
 </script>
 

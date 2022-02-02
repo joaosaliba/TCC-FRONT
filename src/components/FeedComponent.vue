@@ -1,33 +1,54 @@
 <template>
   <div class="feed-class">
-
-    <div id="v-model-textarea" class=" textarea-container my-1">
+    <div id="v-model-textarea" class="textarea-container my-1">
       <b-form-textarea
         id="novidades"
         class="novidades"
-        v-model="post"
+        v-model="post.comentario"
         rows="6"
         placeholder="Diga algo novo aos seus colegas!"
         required
       />
       <b-row id="anexos">
         <b-col class="padding-0">
-      <b-btn  variant="transparent" size="lg">
-           <i class=" blue fas fa-image fa-lg"></i>
-       </b-btn>
+          <input
+            id="imageInput"
+            type="file"
+            accept="image/jpeg, image/png"
+            @input="onSelectImg"
+            hidden
+          />
+
+          <b-btn
+            @click="chooseImage()"
+            class="pr-0 mr-0"
+            variant="transparent"
+          >
+            <i class="blue fas fa-image fa-lg"></i>
+          </b-btn>
         </b-col>
-         <b-col class="padding-0">
-      <b-btn  variant="transparent" size="lg">
-           <i class="fas fa-paperclip fa-lg"></i>
-       </b-btn>
+
+        <b-col class="padding-0">
+          <input @input="onSelectFile" id="fileInput" type="file" hidden />
+          <b-btn
+            @click="chooseFiles()"
+            class="pl-0 ml-0"
+            variant="transparent"
+          >
+            <i class="fas fa-paperclip fa-lg"></i>
+          </b-btn>
         </b-col>
       </b-row>
-      
-   <b-btn id="btn-check" variant="transparent" size="lg">
-           <i class=" green fas fa-check fa-md"/>
-       </b-btn>
+
+      <b-btn
+        id="btn-check"
+        @click="enviarPost()"
+        variant="transparent"
+        size="lg"
+      >
+        <i class="green fas fa-check fa-lg" />
+      </b-btn>
     </div>
-   
   </div>
 </template>
 
@@ -36,13 +57,49 @@ export default {
   name: "FeedComponent",
   data() {
     return {
-      post: null,
+      post: {
+        comentario: null,
+        file: null,
+        img: null,
+      },
     };
+  },
+  methods: {
+    chooseFiles() {
+      document.getElementById("fileInput").click();
+    },
+    chooseImage() {
+      document.getElementById("imageInput").click();
+    },
+    onSelectFile(event) {
+          const files = event.target.files;
+      let filename = files[0].name;
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.post.file = files[0];
+    },
+    onSelectImg(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.post.img = files[0];
+    },
+    enviarPost() {
+      const vm = this;
+      console.log(vm.post);
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .feed-class {
   padding: 20px 40px 600px 40px;
   background-color: rgba(255, 255, 255, 0.79);
@@ -59,9 +116,8 @@ export default {
   size: 300px;
   border: none;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
-  padding: 20px ;
+  padding: 20px;
   outline: none;
-
 }
 ::placeholder {
   padding: auto;
@@ -70,7 +126,7 @@ export default {
   justify-content: center;
   line-height: 150px;
 }
-.green{
+.green {
   color: forestgreen;
 }
 .blue {
