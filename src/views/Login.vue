@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div back-rede>
+  <div back-rede>
+    <div class="mt-2">
       <img alt="logo " class="logo" src="../assets/img/logo.svg" />
 
-      <form class="form-style" >
+      <form class="form-style mt-4">
         <div class="mb-1">
           <label for="login">
             <b>Login</b>
@@ -30,35 +30,27 @@
             @keyup.enter="login"
           />
           <div class="mt-1">
-            <router-link to="/login">
-              Esqueceu senha ou Login?
-            </router-link>
-            <button type="button" class="btn mb-3" @click.prevent="login()">
-              Entrar
-            </button>
+            <b-row>
+              <b-col>
+                <router-link to="/login">
+                  Esqueceu senha ou Login?
+                </router-link>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <router-link to="/novoUsuario"> Novo Usuário </router-link>
+              </b-col>
+            </b-row>
+            <b-row class="text-center">
+              <b-col class="text-center">
+                <button type="button" class="btn mb-3" @click.prevent="login()">
+                  Entrar
+                </button>
+              </b-col>
+            </b-row>
           </div>
         </div>
-        <b-button class="redes">
-            <img
-              alt="Google "
-              class="redesImagens"
-              src="../assets/img/googleLogo.png"
-            />Entrar com Google
-        </b-button>
-        <br>
-         <b-button class="redes">
-            <img
-              alt="Google "
-              class="redesImagens"
-              src="../assets/img/logo-facebook.png"
-            />
-            Entrar com Facebook
-        </b-button>
-        <router-link to="/novoUsuario">
-        <b-button class="redes">
-              Novo Usuário
-        </b-button>
-        </router-link>
       </form>
     </div>
   </div>
@@ -78,18 +70,23 @@ export default {
         device_type: "ANDROID",
         device_id: "device-id-ficticio",
       },
-      user:{}
+      user: {},
     };
   },
   methods: {
-     login() {
-      this.$store.dispatch("logarUsuario", this.usuario).then((response) => {
-         this.$store.dispatch("getUsuario");
-      }).finally(()=>{
-           setTimeout(()=>{ this.$router.push({
-          path: "/feed",
-        })},50)
-      });
+    login() {
+      this.$store
+        .dispatch("logarUsuario", this.usuario)
+        .then((response) => {
+          this.$store.dispatch("getUsuario");
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.$router.push({
+              path: "/feed",
+            });
+          }, 50);
+        });
     },
   },
 };
@@ -120,13 +117,11 @@ a {
   margin-top: 1%;
   color: #0b4f6c;
   opacity: 1 !important;
-
 }
 .logo {
   margin: auto auto;
   position: flex;
   opacity: 1 !important;
-
 }
 
 .btn {
@@ -142,7 +137,6 @@ a {
   /* margin-top: 5%; */
   /* box-shadow: 0 4px 8px #00000029; */
   opacity: 1 !important;
-
 }
 
 .btn:hover {
@@ -161,13 +155,11 @@ a {
   border-color: transparent;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1 !important;
-  
 }
 .redesImagens {
   display: table;
   float: left;
   width: 50px;
   opacity: 1 !important;
-
 }
 </style>
