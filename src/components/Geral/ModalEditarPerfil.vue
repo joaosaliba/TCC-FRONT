@@ -199,15 +199,7 @@ export default {
       vm.$api
         .get(`user/${this.user.id}/`)
         .then((resp) => {
-          let person = resp.data;
-          // var img = new Image();
-          // img.src = person.picture;
-          // person.picture = img;
-          // person.picture = new FileReader.readAsDataURL(person.picture);
-          this.user = person;
-          Object.assign(this.copiaUser, this.user);
-          console.log("COPPPPIAAA");
-          console.log(this.copiaUser);
+          this.user = resp.data;
         })
         .catch((r) => {});
     },
