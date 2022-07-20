@@ -1,19 +1,18 @@
 <template>
   <div back-rede>
     <Header />
-      <router-view />
-
+    <router-view />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Header from "@/components/Header.vue";
+import Header from "@/components/Geral/Header.vue";
 
 export default {
   name: "ViewAfterLogin",
   components: {
-    Header,    
+    Header,
   },
 };
 </script>
