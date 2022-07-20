@@ -1,15 +1,13 @@
 <template>
   <div>
-    <Alerta ref="alerta"/>
+    <Alerta ref="alerta" />
 
     <h2 class="d-flex flex-row"></h2>
 
     <b-card class="form-style">
-      <b-card-title>
-        Cadastro Aluno
-      </b-card-title>
+      <b-card-title> Cadastro Aluno </b-card-title>
       <b-card-body>
-        <b-form  >
+        <b-form>
           <b-form-group
             id="input-group-1"
             label="Endereço de email:"
@@ -46,7 +44,7 @@
               >
                 <b-form-input
                   id="input-3"
-                  v-model="form.birthdate"
+                  v-model="form.profile.birthdate"
                   type="date"
                   required
                 />
@@ -90,7 +88,7 @@
           >
             <b-form-input
               id="input-6"
-              v-model="form.customer_address"
+              v-model="form.profile.location"
               type="text"
               placeholder="Endereço de Residencia:"
               required
@@ -140,7 +138,7 @@
               <b-button
                 variant="success"
                 size="lg"
-                 @click="criarEstudande()"
+                @click="criarEstudande()"
                 class="mr-3"
                 >Cadastrar</b-button
               >
@@ -163,33 +161,35 @@
 </template>
 
 <script>
-import Alerta from "@/components/Alerta.vue"
+import Alerta from "@/components/Geral/Alerta.vue";
 export default {
-  name:"CadastroUsuario",
+  name: "CadastroUsuario",
   components: {
-    Alerta
+    Alerta,
   },
   data() {
     return {
       form: {
         email: "",
         nome: "",
-        birthdate: "",
+        profile: {
+          birthdate: "",
+          location: "",
+        },
         phonenumber: "",
         cpf: "",
         user_type: "",
-        customer_address: "",
         password: "",
         password_confirmation: "",
       },
     };
   },
   methods: {
-     criarEstudande() {
+    criarEstudande() {
       const vm = this;
       vm.form.user_type = "Aluno";
       vm.$api
-        .post("aluno/", vm.form)
+        .post("user/", vm.form)
         .then((resp) => {
           console.log(resp.data);
           vm.$router.push({
@@ -197,7 +197,7 @@ export default {
           });
         })
         .catch((e) => {
-         vm.mostrarMsgErro(e.response.data);
+          vm.mostrarMsgErro(e.response.data);
         });
     },
 
@@ -207,7 +207,7 @@ export default {
         name: "Login",
       });
     },
-     mostrarMsgErro(msgErro) {
+    mostrarMsgErro(msgErro) {
       let vm = this;
       let alertaComp = vm.$refs["alerta"];
       alertaComp.mostraErroSimples("Erro", msgErro);

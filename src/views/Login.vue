@@ -67,8 +67,6 @@ export default {
       usuario: {
         email: "",
         password: "",
-        device_type: "ANDROID",
-        device_id: "device-id-ficticio",
       },
       user: {},
     };

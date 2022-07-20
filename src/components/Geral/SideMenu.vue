@@ -2,7 +2,7 @@
   <div class="sideMenu">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
     <div class="foto-perfil">
-      <img :src="user.picture.src" alt="foto-perfil mb-4" />
+      <img :src="user.picture" alt="foto-perfil mb-4" />
     </div>
     <div>
       <h4>{{ user.nome }}</h4>
@@ -11,68 +11,67 @@
       <h5>{{ user.user_type }}</h5>
     </div>
     <div>
-      <b-btn @click ="showModal()"  class="btn-clear">
-        Editar Perfil
-      </b-btn>
+      <b-btn @click="showModal()" class="btn-clear"> Editar Perfil </b-btn>
     </div>
-    <div class="box">
+    <!-- <div class="box">
       <h2>Forúm</h2>
-      <b-row class="justify-content-start">
-        Teste
-      </b-row>
-      <b-row>
-        Teste
-      </b-row>
-      <b-row>
-        Teste
-      </b-row>
+      <b-row class="justify-content-start"> Teste </b-row>
+      <b-row> Teste </b-row>
+      <b-row> Teste </b-row>
       <h2>Meus Grupo</h2>
-      <b-row>
-        Teste
-      </b-row>
-      <b-row>
-        Teste
-      </b-row>
-      <b-row>
-        Teste
-      </b-row>
+      <b-row> Teste </b-row>
+      <b-row> Teste </b-row>
+      <b-row> Teste </b-row>
       <h2>Formulários</h2>
-    </div>
+    </div> -->
     <!-- </b-col> -->
-  
-    <ModalEditarPerfil/>
+
+    <ModalEditarPerfil @buscarDados="pegarUsuario" />
   </div>
 </template>
 
 <script>
 import store from "@/utils/store.js";
-import ModalEditarPerfil from '@/components/ModalEditarPerfil.vue'
+import ModalEditarPerfil from "@/components/Geral/ModalEditarPerfil.vue";
 
 export default {
   name: "SideMenu",
-  props:["usuario"],
-  components:{   
-    ModalEditarPerfil
-    }
-  ,
+  props: ["usuario"],
+  components: {
+    ModalEditarPerfil,
+  },
   data() {
     return {
-      user:{}
+      user: {
+        picture: null,
+      },
     };
   },
   methods: {
+    pegarUsuario() {
+      const vm = this;
+      vm.$api
+        .get(`user/${this.user.id}/`)
+        .then((resp) => {
+          this.user = resp.data;
+        })
+        .catch((r) => {});
+    },
+    buscarDados() {
+      this.$store.dispatch("getUsuario");
+      this.user = store.getters.getUser;
+    },
 
     showModal() {
-       this.$bvModal.show('modal-perfil')
-       },
+      this.$bvModal.show("modal-perfil");
+    },
   },
   mounted() {
-    this.$store.dispatch("getUsuario");
-    this.user=store.getters.getUser
+    this.buscarDados();
   },
   // computed:{
   //   user(){
-      
+
   //     return store.getters.getUser
   //   }
   // },

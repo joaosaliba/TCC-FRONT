@@ -1,26 +1,23 @@
 <template>
   <div back-rede>
-    <div class="wrapper" >
-    <div>
-      <SideMenu />
+    <div class="wrapper">
+      <div>
+        <SideMenu />
+      </div>
+      <div>
+        <FeedComponent />
+      </div>
     </div>
-    <div>
 
-    <FeedComponent />
-    </div>
-    </div>
-
-      <router-view class="container-fluid"></router-view>
+    <router-view class="container-fluid"></router-view>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
-import SideMenu from "@/components/SideMenu.vue";
-import FeedComponent from "@/components/FeedComponent.vue";
-
-
+import SideMenu from "@/components/Geral/SideMenu.vue";
+import FeedComponent from "@/components/Feed/FeedComponent.vue";
 
 export default {
   name: "ViewAfterLogin",
@@ -35,5 +32,4 @@ export default {
   display: grid;
   grid-template-columns: 1fr 3.5fr 1fr;
 }
-
 </style>

@@ -19,22 +19,14 @@
             hidden
           />
 
-          <b-btn
-            @click="chooseImage()"
-            class="pr-0 mr-0"
-            variant="transparent"
-          >
+          <b-btn @click="chooseImage()" class="pr-0 mr-0" variant="transparent">
             <i class="blue fas fa-image fa-lg"></i>
           </b-btn>
         </b-col>
 
         <b-col class="padding-0">
           <input @input="onSelectFile" id="fileInput" type="file" hidden />
-          <b-btn
-            @click="chooseFiles()"
-            class="pl-0 ml-0"
-            variant="transparent"
-          >
+          <b-btn @click="chooseFiles()" class="pl-0 ml-0" variant="transparent">
             <i class="fas fa-paperclip fa-lg"></i>
           </b-btn>
         </b-col>
@@ -49,6 +41,8 @@
         <i class="green fas fa-check fa-lg" />
       </b-btn>
     </div>
+
+    {{ posts }}
   </div>
 </template>
 
@@ -57,6 +51,7 @@ export default {
   name: "FeedComponent",
   data() {
     return {
+      posts: {},
       post: {
         comentario: null,
         file: null,
@@ -72,7 +67,7 @@ export default {
       document.getElementById("imageInput").click();
     },
     onSelectFile(event) {
-          const files = event.target.files;
+      const files = event.target.files;
       let filename = files[0].name;
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
@@ -91,10 +86,52 @@ export default {
       fileReader.readAsDataURL(files[0]);
       this.post.img = files[0];
     },
+    limparForm() {
+      let vm = this;
+      Object.entries(vm.post).forEach(([key]) => {
+        vm.post[key] = null;
+      });
+    },
     enviarPost() {
       const vm = this;
       console.log(vm.post);
+
+      let data = new FormData();
+      data.append("body", vm.post.comentario);
+      if (vm.post.img) data.append("post_image", vm.post.img);
+      if (vm.post.file) data.append("post_image", vm.post.file);
+
+      vm.$api
+        .post("post/", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          console.log(resp);
+          vm.limparForm();
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+          Object.assign(this.user, this.copiaUser);
+        });
     },
+
+    listarPost() {
+      const vm = this;
+
+      vm.$api
+        .get("post/")
+        .then((resp) => {
+          this.posts = resp.data;
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
+  },
+  mounted() {
+    this.listarPost();
   },
 };
 </script>
