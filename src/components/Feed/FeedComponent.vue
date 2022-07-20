@@ -9,7 +9,7 @@
         placeholder="Diga algo novo aos seus colegas!"
         required
       />
-      <b-row id="anexos">
+      <b-row id="anexos" class="ml-2">
         <b-col class="padding-0">
           <input
             id="imageInput"
@@ -99,7 +99,7 @@ export default {
       let data = new FormData();
       data.append("body", vm.post.comentario);
       if (vm.post.img) data.append("post_image", vm.post.img);
-      if (vm.post.file) data.append("post_image", vm.post.file);
+      if (vm.post.file) data.append("post_file", vm.post.file);
 
       vm.$api
         .post("post/", data, {
