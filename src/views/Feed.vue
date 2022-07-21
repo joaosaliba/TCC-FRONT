@@ -30,10 +30,7 @@ export default {
   },
   methods: {
     atualizarLista() {
-      this.$refs["postList"].listarPostsFollowing();
-    },
-    getNextUser() {
-      this.$refs["postList"].listarPostsFollowing();
+      this.$refs["postList"].limparEListarPostsFollowing();
     },
   },
 };

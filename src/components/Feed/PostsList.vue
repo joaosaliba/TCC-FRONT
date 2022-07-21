@@ -1,6 +1,12 @@
 <template>
   <div id="feed-posts" class="feed">
-    <div variant="transparent" class="p-4" v-for="post in posts" :key="post.id">
+    <b-card
+      border-variant="transparent"
+      bg-variant="transparent"
+      class="p-4 mt-2"
+      v-for="(post, index) in posts"
+      :key="post.id"
+    >
       <b-row>
         <b-col>
           <b-avatar :src="post.created_by.picture" class="mr-4" />
@@ -8,7 +14,7 @@
           <b>{{ post.created_by.nome }}</b> postou
         </b-col>
       </b-row>
-      <b-row class="text-center m-2">
+      <b-row class="text-left ml-5 mt-2">
         <b-col>
           {{ post.body }}
         </b-col>
@@ -21,33 +27,57 @@
         class="imgPost"
         thumbnail
       />
-    </div>
+      <b-row class="text-left">
+        <b-col>
+          <a variant="success" @click="toggleCollapsed(index)">
+            <span v-if="collapsed[index]" class="fas fa-minus" />
+            <span v-else class="fas fa-plus" />
+            Comentarios</a
+          >
+        </b-col>
+      </b-row>
+      <b-collapse v-model="collapsed[index]">
+        <Comments v-if="collapsed[index]" ref="comentarios" :postID="post.id" />
+      </b-collapse>
+    </b-card>
   </div>
 </template>
 
 <script>
+import Comments from "@/components/Comments/Comments";
 export default {
   name: "PostsList",
+  components: {
+    Comments,
+  },
   data() {
     return {
       posts: [],
+      collapsed: [],
     };
   },
   methods: {
+    limparEListarPostsFollowing() {
+      this.posts = [];
+      this.listarPostsFollowing();
+    },
+    toggleCollapsed: function (i) {
+      this.$set(this.collapsed, i, !this.collapsed[i]);
+    },
     listarPostsFollowing() {
       const vm = this;
 
       vm.$api
-        .get("post/?itens=6")
+        .get("post/?page=1&itens=4")
         .then((resp) => {
-          this.posts = resp.data.results;
+          resp.data.results.forEach((p) => this.posts.push(p));
           this.nextPage = resp.data.next;
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
         });
     },
-    getNextUser() {
+    listarPostsFollowingNext() {
       window.onscroll = () => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
@@ -67,7 +97,7 @@ export default {
     this.listarPostsFollowing();
   },
   mounted() {
-    this.getNextUser();
+    this.listarPostsFollowingNext();
   },
 };
 </script>
@@ -78,9 +108,9 @@ export default {
 }
 .imgPost {
   border-radius: 3rem;
-  max-width: 340px;
+  max-width: 400px;
   width: auto;
-  max-height: 240px;
+  max-height: 300px;
   height: auto;
   justify-content: center;
 }

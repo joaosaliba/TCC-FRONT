@@ -12,7 +12,7 @@
       <b-row id="anexos" class="ml-2">
         <b-col class="padding-0">
           <input
-            id="imageInput"
+            id="imageInput-post"
             type="file"
             accept="image/jpeg, image/png"
             @input="onSelectImg"
@@ -25,7 +25,7 @@
         </b-col>
 
         <b-col class="padding-0">
-          <input @input="onSelectFile" id="fileInput" type="file" hidden />
+          <input @input="onSelectFile" id="fileInput-post" type="file" hidden />
           <b-btn @click="chooseFiles()" class="pl-0 ml-0" variant="transparent">
             <i class="fas fa-paperclip fa-lg"></i>
           </b-btn>
@@ -58,10 +58,10 @@ export default {
   },
   methods: {
     chooseFiles() {
-      document.getElementById("fileInput").click();
+      document.getElementById("fileInput-post").click();
     },
     chooseImage() {
-      document.getElementById("imageInput").click();
+      document.getElementById("imageInput-post").click();
     },
     onSelectFile(event) {
       const files = event.target.files;
@@ -91,7 +91,6 @@ export default {
     },
     enviarPost() {
       const vm = this;
-      console.log(vm.post);
 
       let data = new FormData();
       data.append("body", vm.post.comentario);
@@ -110,7 +109,6 @@ export default {
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
-          Object.assign(this.user, this.copiaUser);
         });
     },
 
