@@ -87,7 +87,7 @@ nav {
   height: 42px;
 }
 .selecionado {
-  background-color: #d4b56b !important;
+  background-color: rgba(255, 255, 255, 0.79) !important;
   color: #0b4f6c !important;
   font-weight: bold;
 }

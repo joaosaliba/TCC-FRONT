@@ -31,10 +31,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getUsuario(context) {
+    async getUsuario(context) {
       let userId = context.getters.getUser.id;
 
-      api
+      return await api
         .get(`user/${userId}/`)
         .then((resp) => {
           context.commit("UPDATE_LOGIN", true);

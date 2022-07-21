@@ -31,15 +31,12 @@
       </b-row> -->
       <div>
         <div
-          v-if="novaImagem == null"
           class="image-input center"
-          :style="{ 'background-image': `url(${user.picture})` }"
-          @click="chooseImage"
-        />
-        <div
-          v-else
-          class="image-input center"
-          :style="{ 'background-image': `url(${novaImagemURL})` }"
+          :style="
+            novaImagem == null
+              ? { 'background-image': `url(${user.picture})` }
+              : { 'background-image': `url(${novaImagemURL})` }
+          "
           @click="chooseImage"
         />
         <b-row class="text-center">

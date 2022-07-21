@@ -1,5 +1,5 @@
 <template>
-  <div class="feed-class">
+  <div>
     <div id="v-model-textarea" class="textarea-container my-1">
       <b-form-textarea
         id="novidades"
@@ -20,7 +20,7 @@
           />
 
           <b-btn @click="chooseImage()" class="pr-0 mr-0" variant="transparent">
-            <i class="blue fas fa-image fa-lg"></i>
+            <i @click="chooseImage()" class="blue fas fa-image fa-lg"></i>
           </b-btn>
         </b-col>
 
@@ -41,17 +41,14 @@
         <i class="green fas fa-check fa-lg" />
       </b-btn>
     </div>
-
-    {{ posts }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "FeedComponent",
+  name: "NewPost",
   data() {
     return {
-      posts: {},
       post: {
         comentario: null,
         file: null,
@@ -108,8 +105,8 @@ export default {
           },
         })
         .then((resp) => {
-          console.log(resp);
           vm.limparForm();
+          this.$emit("atualizarPost");
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
@@ -137,14 +134,6 @@ export default {
 </script>
 
 <style scoped>
-.feed-class {
-  padding: 20px 40px 600px 40px;
-  background-color: rgba(255, 255, 255, 0.79);
-  border-radius: 50px;
-  /* opacity: 0.79; */
-  margin: 0 auto;
-  margin-top: 10px;
-}
 .novidades {
   resize: none;
   border-radius: 40px;

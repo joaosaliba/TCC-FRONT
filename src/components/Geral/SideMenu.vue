@@ -26,7 +26,7 @@
     </div> -->
     <!-- </b-col> -->
 
-    <ModalEditarPerfil @buscarDados="pegarUsuario" />
+    <ModalEditarPerfil @buscarDados="buscarDados()" />
   </div>
 </template>
 
@@ -57,8 +57,8 @@ export default {
         })
         .catch((r) => {});
     },
-    buscarDados() {
-      this.$store.dispatch("getUsuario");
+    async buscarDados() {
+      await this.$store.dispatch("getUsuario");
       this.user = store.getters.getUser;
     },
 
