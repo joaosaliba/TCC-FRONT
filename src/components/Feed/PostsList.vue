@@ -3,7 +3,7 @@
     <b-card
       border-variant="transparent"
       bg-variant="transparent"
-      class="p-4 mt-2"
+      class="mt-1"
       v-for="(post, index) in posts"
       :key="post.id"
     >
@@ -13,11 +13,18 @@
 
           <b>{{ post.created_by.nome }}</b> postou
         </b-col>
-        <b-col v-if="post.created_by.id == user.id" class="text-right">
+
+        <b-col class="text-right">
+          <small>
+            <b>
+              {{ post.created_at.split("T")[0].split("-").reverse().join("/") }}
+            </b>
+          </small>
           <i
+            v-if="post.created_by.id == user.id"
             @click="deletePost(post.id)"
             variant="danger"
-            class="fas fa-trash danger"
+            class="fas fa-trash danger ml-2"
           />
         </b-col>
       </b-row>
@@ -47,6 +54,9 @@
         <Comments v-if="collapsed[index]" ref="comentarios" :postID="post.id" />
       </b-collapse>
     </b-card>
+    <b-col class="text-center mt-2" v-if="!!nextPage">
+      <a class="fas fa-plus" @click="loadMore()"> Carregar Mais</a></b-col
+    >
   </div>
 </template>
 
@@ -57,9 +67,11 @@ export default {
   components: {
     Comments,
   },
+  props: ["isProfile"],
   data() {
     return {
       posts: [],
+      nextPage: null,
       collapsed: [],
       user: {},
     };
@@ -83,11 +95,15 @@ export default {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
         });
     },
-    listarPostsFollowing() {
+    listarPostsFollowing(id) {
       const vm = this;
-
+      let url = "post/";
+      if (id) {
+        url += `user/${id}/`;
+      }
+      this.posts = [];
       vm.$api
-        .get("post/?page=1&itens=4")
+        .get(`${url}?page=1&itens=5`)
         .then((resp) => {
           resp.data.results.forEach((p) => this.posts.push(p));
           this.nextPage = resp.data.next;
@@ -96,28 +112,35 @@ export default {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
         });
     },
+    loadMore() {
+      this.$api.get(`${this.nextPage}`).then((resp) => {
+        resp.data.results.forEach((p) => this.posts.push(p));
+
+        this.nextPage = resp.data.next;
+      });
+    },
     listarPostsFollowingNext() {
       window.onscroll = () => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight;
         if (bottomOfWindow && this.nextPage) {
-          console.log(this.nextPage);
-          this.$api.get(`${this.nextPage}`).then((resp) => {
-            resp.data.results.forEach((p) => this.posts.push(p));
-
-            this.nextPage = resp.data.next;
-          });
+          this.loadMore();
         }
       };
     },
   },
+  computed: {
+    userPerfilID() {
+      return this.$route.path == "/perfil" ? this.user.id : null;
+    },
+  },
   beforeMount() {
-    this.listarPostsFollowing();
+    this.user = this.$store.getters.getUser;
+    this.listarPostsFollowing(this.userPerfilID);
   },
   mounted() {
     this.listarPostsFollowingNext();
-    this.user = this.$store.getters.getUser;
   },
 };
 </script>

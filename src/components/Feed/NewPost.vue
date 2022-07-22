@@ -10,7 +10,7 @@
         required
       />
       <b-row id="anexos" class="ml-2">
-        <b-col class="padding-0">
+        <b-col class="">
           <input
             id="imageInput-post"
             type="file"
@@ -19,15 +19,42 @@
             hidden
           />
 
-          <b-btn @click="chooseImage()" class="pr-0 mr-0" variant="transparent">
+          <b-btn
+            v-if="post.img == null"
+            @click="chooseImage()"
+            variant="transparent"
+          >
             <i @click="chooseImage()" class="blue fas fa-image fa-lg"></i>
           </b-btn>
-        </b-col>
+          <b-btn
+            @click="post.img = null"
+            pill
+            size="sm"
+            v-else
+            variant="danger"
+            class="mr-1"
+          >
+            <i class="fas fa-times fa-sm" />
+            {{ post.img ? post.img.name : "" }}
+          </b-btn>
 
-        <b-col class="padding-0">
           <input @input="onSelectFile" id="fileInput-post" type="file" hidden />
-          <b-btn @click="chooseFiles()" class="pl-0 ml-0" variant="transparent">
+          <b-btn
+            v-if="post.file == null"
+            @click="chooseFiles()"
+            variant="transparent"
+          >
             <i class="fas fa-paperclip fa-lg"></i>
+          </b-btn>
+          <b-btn
+            @click="post.file = null"
+            pill
+            size="sm"
+            v-else
+            variant="danger"
+          >
+            <i class="fas fa-times fa-sm" />
+            {{ post.file ? post.file.name : "" }}
           </b-btn>
         </b-col>
       </b-row>

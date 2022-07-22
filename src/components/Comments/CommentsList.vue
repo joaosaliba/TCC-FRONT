@@ -73,6 +73,7 @@ export default {
       });
     },
     async buscarComentariosDoPost() {
+      this.comments = [];
       return await this.$api
         .get(`/comments/postComments/${this.postID}/?page=1&itens=3`)
         .then((resp) => {

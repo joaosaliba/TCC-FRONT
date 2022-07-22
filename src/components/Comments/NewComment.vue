@@ -15,9 +15,25 @@
           max-rows="1"
           v-on:keyup.enter="enviarComentario()"
         />
-        <b-row>
+        <b-row class="mt-2">
+          <b-col class="text-left">
+            <i
+              v-if="newComment.commentImage == null"
+              @click="chooseImage()"
+              class="blue fas fa-image fa-lg mr-4"
+            />
+            <b-btn
+              @click="newComment.commentImage = null"
+              pill
+              size="sm"
+              v-else
+              variant="danger"
+            >
+              <i class="fas fa-times fa-sm" />
+              {{ newComment.commentImage ? newComment.commentImage.name : "" }}
+            </b-btn>
+          </b-col>
           <b-col class="text-right">
-            <i @click="chooseImage()" class="blue fas fa-image fa-lg mr-4" />
             <input
               id="imageInput-Comentarios"
               type="file"
@@ -70,6 +86,7 @@ export default {
       });
       fileReader.readAsDataURL(files[0]);
       this.newComment.commentImage = files[0];
+      console.log(this.newComment.commentImage);
     },
     limparForm() {
       let vm = this;
