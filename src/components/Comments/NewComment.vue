@@ -15,9 +15,9 @@
           max-rows="1"
           v-on:keyup.enter="enviarComentario()"
         />
-        <b-row align-h="between">
-          <b-col>
-            <i @click="chooseImage()" class="blue fas fa-image fa-lg" />
+        <b-row>
+          <b-col class="text-right">
+            <i @click="chooseImage()" class="blue fas fa-image fa-lg mr-4" />
             <input
               id="imageInput-Comentarios"
               type="file"
@@ -25,8 +25,6 @@
               @input="onSelectImg"
               hidden
             />
-          </b-col>
-          <b-col>
             <i @click="enviarComentario()" class="green fas fa-check fa-lg" />
           </b-col>
         </b-row>
@@ -114,8 +112,10 @@ export default {
 <style scoped>
 .green {
   color: forestgreen;
+  cursor: pointer;
 }
 .blue {
   color: rgb(33, 110, 211);
+  cursor: pointer;
 }
 </style>

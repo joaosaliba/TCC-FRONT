@@ -11,6 +11,14 @@
 
           <b>{{ comment.commented_by.nome }}</b> comentou
         </b-col>
+        <b-col v-if="comment.commented_by.id == user.id" class="text-right">
+          <i
+            @click="deleteComment(comment.id)"
+            variant="danger"
+            class="fas fa-trash fa danger"
+            size="sm"
+          />
+        </b-col>
       </b-row>
       <b-row class="text-left ml-5">
         <b-col>
@@ -43,9 +51,21 @@ export default {
     return {
       comments: [],
       nextPage: null,
+      user: {},
     };
   },
   methods: {
+    deleteComment(id) {
+      const vm = this;
+      vm.$api
+        .delete(`comments/${id}/`)
+        .then((resp) => {
+          this.comments = this.comments.filter((c) => c.id != id);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
     async carregarMais() {
       return await this.$api.get(`${this.nextPage}`).then((resp) => {
         resp.data.results.forEach((c) => this.comments.push(c));
@@ -63,6 +83,7 @@ export default {
   },
   async beforeMount() {
     await this.buscarComentariosDoPost();
+    this.user = this.$store.getters.getUser;
   },
 };
 </script>
@@ -76,7 +97,7 @@ export default {
   height: auto;
   justify-content: center;
 }
-.list-group {
-  overflow: auto;
+.danger {
+  color: red;
 }
 </style>

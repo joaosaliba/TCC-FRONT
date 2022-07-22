@@ -13,6 +13,13 @@
 
           <b>{{ post.created_by.nome }}</b> postou
         </b-col>
+        <b-col v-if="post.created_by.id == user.id" class="text-right">
+          <i
+            @click="deletePost(post.id)"
+            variant="danger"
+            class="fas fa-trash danger"
+          />
+        </b-col>
       </b-row>
       <b-row class="text-left ml-5 mt-2">
         <b-col>
@@ -54,6 +61,7 @@ export default {
     return {
       posts: [],
       collapsed: [],
+      user: {},
     };
   },
   methods: {
@@ -63,6 +71,17 @@ export default {
     },
     toggleCollapsed: function (i) {
       this.$set(this.collapsed, i, !this.collapsed[i]);
+    },
+    deletePost(id) {
+      const vm = this;
+      vm.$api
+        .delete(`post/${id}/`)
+        .then((resp) => {
+          this.posts = this.posts.filter((p) => p.id != id);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
     },
     listarPostsFollowing() {
       const vm = this;
@@ -98,6 +117,7 @@ export default {
   },
   mounted() {
     this.listarPostsFollowingNext();
+    this.user = this.$store.getters.getUser;
   },
 };
 </script>
@@ -113,5 +133,8 @@ export default {
   max-height: 300px;
   height: auto;
   justify-content: center;
+}
+.danger {
+  color: red;
 }
 </style>
