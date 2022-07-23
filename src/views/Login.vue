@@ -32,9 +32,9 @@
           <div class="mt-1">
             <b-row>
               <b-col>
-                <router-link to="/login">
+                <a class="a" @click="$bvModal.show('modal-forgot-password')">
                   Esqueceu senha ou Login?
-                </router-link>
+                </a>
               </b-col>
             </b-row>
             <b-row>
@@ -53,14 +53,17 @@
         </div>
       </form>
     </div>
+    <ForgotPassword :email="usuario.email" />
   </div>
 </template>
 
 <script>
 import store from "@/utils/store.js";
+import ForgotPassword from "@/components/Geral/ForgotPassword";
 
 export default {
   name: "Login",
+  components: { ForgotPassword },
   data() {
     return {
       auth: "",
@@ -106,8 +109,11 @@ export default {
   /* opacity: 0.79; */
   max-width: 500px;
   width: auto;
-  margin: 0 auto;
-  margin-top: 1%;
+  margin: auto auto;
+  margin-top: 50%;
+}
+.a {
+  cursor: pointer;
 }
 a {
   list-style: none;
@@ -159,5 +165,10 @@ a {
   float: left;
   width: 50px;
   opacity: 1 !important;
+}
+.center {
+  margin: auto auto !important;
+  margin-top: auto !important;
+  margin-bottom: auto !important;
 }
 </style>
