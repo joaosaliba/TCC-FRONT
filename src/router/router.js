@@ -1,8 +1,6 @@
 import Perfil from "../views/Perfil.vue";
 import Feed from "@/views/Feed.vue";
 
-
-
 export default [
   {
     path: "/Perfil",
@@ -14,5 +12,8 @@ export default [
     name: "Feed",
     component: Feed,
   },
-  
+  {
+    path: "*",
+    redirect: { name: "Feed" },
+  },
 ];

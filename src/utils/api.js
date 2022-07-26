@@ -2,9 +2,10 @@ import Vue from "vue";
 
 import axios from "axios";
 
+let baseURL = process.env.VUE_APP_ENDPOINT;
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8040/",
-  // withCredentials: true
+  baseURL,
 });
 
 axiosInstance.interceptors.request.use(
@@ -38,6 +39,9 @@ export const api = {
   },
   login(body) {
     return axiosInstance.post("api-token-auth/", body);
+  },
+  logout(body) {
+    return axiosInstance.post("api-auth/logout/", body);
   },
 };
 

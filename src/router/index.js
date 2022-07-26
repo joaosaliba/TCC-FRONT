@@ -1,60 +1,59 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import ViewAfterLogin from "@/ViewAfterLogin.vue"
-import Router from "@/router/router.js"
-import store from '@/utils/store.js'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Login from "../views/Login.vue";
+import ViewAfterLogin from "@/ViewAfterLogin.vue";
+import Router from "@/router/router.js";
+import store from "@/utils/store.js";
 import CadastroUsuario from "../views/CadastroUsuario.vue";
+import ResetPassword from "@/components/Geral/ResetPassword";
 
-
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
- 
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   {
     path: "/novoUsuario",
     name: "CadastroUsuario",
     component: CadastroUsuario,
   },
-  
+  {
+    path: "/newPassword",
+    name: "ResetPassword",
+    component: ResetPassword,
+  },
+
   {
     path: "/",
     component: ViewAfterLogin,
-    children:  Router,
+    children: Router,
     meta: {
-      requiresAuth: true
-    }
-  
-  }
-]
-
+      requiresAuth: true,
+    },
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
-  routes
-})
+  mode: "history",
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    console.log(store.getters.isLogged)
+    console.log(store.getters.isLogged);
     if (!store.getters.isLogged) {
-      next({ path: '/login' })
+      next({ path: "/login" });
     } else {
-      next() // go to wherever I'm going
+      next(); // go to wherever I'm going
     }
   } else {
-    next() // does not require auth, make sure to always call next()!
+    next(); // does not require auth, make sure to always call next()!
   }
-})
+});
 
-
-
-export default router
+export default router;
