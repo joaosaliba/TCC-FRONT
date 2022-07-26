@@ -1,9 +1,9 @@
 <template>
   <div back-rede>
-    <div class="mt-2">
+    <div class="form-style">
       <img alt="logo " class="logo" src="../assets/img/logo.svg" />
 
-      <form class="form-style mt-4">
+      <form>
         <div class="mb-1">
           <label for="login">
             <b>Login</b>
@@ -109,8 +109,10 @@ export default {
   /* opacity: 0.79; */
   max-width: 500px;
   width: auto;
-  margin: auto auto;
-  margin-top: 50%;
+  margin: 10% auto;
+  @media screen and (max-width: 400px) {
+    width: 80%;
+  }
 }
 .a {
   cursor: pointer;
