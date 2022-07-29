@@ -31,6 +31,16 @@
           />
           <div class="mt-1">
             <b-row>
+              <b-col class="text-center">
+                <b-spinner v-if="loading"></b-spinner>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col class="text-left">
+                <p class="danger" v-if="!!loginErro">{{ loginErro }}</p>
+              </b-col>
+            </b-row>
+            <b-row>
               <b-col>
                 <a class="a" @click="$bvModal.show('modal-forgot-password')">
                   Esqueceu senha ou Login?
@@ -72,28 +82,43 @@ export default {
         password: "",
       },
       user: {},
+      loading: null,
+      loginErro: "",
     };
   },
   methods: {
     login() {
+      this.loading = true;
+      this.loginErro = "";
       this.$store
         .dispatch("logarUsuario", this.usuario)
         .then((response) => {
           this.$store.dispatch("getUsuario");
-        })
-        .finally(() => {
+          this.loading = false;
           setTimeout(() => {
             this.$router.push({
               path: "/feed",
             });
           }, 50);
-        });
+        })
+        .catch((erro) => {
+          console.log(erro);
+          this.loading = false;
+
+          Object.entries(erro.response.data).forEach(([key, a]) => {
+            this.loginErro += key + "  :" + a + "\n \n";
+          });
+        })
+        .finally(() => {});
     },
   },
 };
 </script>
 
 <style scoped>
+.danger {
+  color: red;
+}
 .input-round {
   border-radius: 15px;
   height: 50px;
