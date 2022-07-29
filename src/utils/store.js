@@ -57,8 +57,7 @@ export default new Vuex.Store({
 
           window.localStorage.token = `JWT ${response.data.token}`;
           // console.log( window.localStorage.token)
-        })
-        .catch(() => context.commit("UPDATE_LOGIN", false));
+        });
     },
 
     logOutUsuario(context) {
