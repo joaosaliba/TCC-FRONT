@@ -2,7 +2,7 @@
   <div>
     <div
       class="list-group pl-5 mt-2"
-      v-for="comment in comments"
+      v-for="(comment, index) in comments"
       :key="comment.id"
     >
       <b-row>
@@ -33,6 +33,22 @@
         class="imgComment"
         thumbnail
       />
+      <b-col class="text-left">
+        <b-btn
+          variant="transparent"
+          class="fas fa-thumbs-up p-1 like mr-2"
+          @click="likeComment(comment, index, true)"
+        >
+          {{ comment.likes_count }}
+        </b-btn>
+        <b-btn
+          variant="transparent"
+          class="fas fa-thumbs-down p-1 danger"
+          @click="likeComment(comment, index, false)"
+        >
+          {{ comment.dislikes_count }}
+        </b-btn>
+      </b-col>
     </div>
     <b-row class="text-center">
       <b-col>
@@ -55,6 +71,34 @@ export default {
     };
   },
   methods: {
+    likeComment(comment, index, like) {
+      const vm = this;
+      let param = {
+        liked_comment: comment.id,
+        like: like,
+      };
+      vm.$api
+        .post(`likeComment/`, param)
+        .then((resp) => {
+          this.relaodComment(comment, index);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        })
+        .finally();
+    },
+    relaodComment(comment, index) {
+      const vm = this;
+      vm.$api
+        .get(`comments/${comment.id}/`)
+        .then((resp) => {
+          comment = resp.data;
+          this.$set(this.comments, index, comment);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
     deleteComment(id) {
       const vm = this;
       vm.$api
@@ -100,5 +144,10 @@ export default {
 }
 .danger {
   color: red;
+  cursor: pointer;
+}
+.like {
+  color: blue;
+  cursor: pointer;
 }
 </style>
