@@ -41,17 +41,39 @@
         class="imgPost"
         thumbnail
       />
-      <b-row class="text-left">
-        <b-col>
+
+      <b-row>
+        <b-col class="text-left">
+          <b-btn
+            variant="transparent"
+            class="fas fa-thumbs-up p-1 like mr-2"
+            @click="likePost(post, index, true)"
+          >
+            {{ post.likes_count }}
+          </b-btn>
+          <b-btn
+            variant="transparent"
+            class="fas fa-thumbs-down p-1 danger"
+            @click="likePost(post, index, false)"
+          >
+            {{ post.dislikes_count }}
+          </b-btn>
+        </b-col>
+        <b-col class="text-right">
           <a variant="success" @click="toggleCollapsed(index)">
             <span v-if="collapsed[index]" class="fas fa-minus" />
             <span v-else class="fas fa-plus" />
-            Comentarios</a
+            Comentarios: {{ post.comments_count }}</a
           >
         </b-col>
       </b-row>
       <b-collapse v-model="collapsed[index]">
-        <Comments v-if="collapsed[index]" ref="comentarios" :postID="post.id" />
+        <Comments
+          v-if="collapsed[index]"
+          @reloadPosts="relaodPost(post, index)"
+          ref="comentarios"
+          :postID="post.id"
+        />
       </b-collapse>
     </b-card>
     <b-col class="text-center mt-2" v-if="!!nextPage">
@@ -77,6 +99,22 @@ export default {
     };
   },
   methods: {
+    likePost(post, index, like) {
+      const vm = this;
+      let param = {
+        liked_post: post.id,
+        like: like,
+      };
+      vm.$api
+        .post(`likePost/`, param)
+        .then((resp) => {
+          this.relaodPost(post, index);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        })
+        .finally();
+    },
     limparEListarPostsFollowing() {
       this.posts = [];
       this.listarPostsFollowing();
@@ -90,6 +128,18 @@ export default {
         .delete(`post/${id}/`)
         .then((resp) => {
           this.posts = this.posts.filter((p) => p.id != id);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
+    relaodPost(post, index) {
+      const vm = this;
+      vm.$api
+        .get(`post/${post.id}/`)
+        .then((resp) => {
+          post = resp.data;
+          this.$set(this.posts, index, post);
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
@@ -159,5 +209,10 @@ export default {
 }
 .danger {
   color: red;
+  cursor: pointer;
+}
+.like {
+  color: blue;
+  cursor: pointer;
 }
 </style>

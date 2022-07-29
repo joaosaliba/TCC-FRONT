@@ -21,6 +21,7 @@ export default {
   methods: {
     atualizaListaComentarios() {
       this.$refs.commentsList.buscarComentariosDoPost();
+      this.$emit("reloadPosts");
     },
   },
 };

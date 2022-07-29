@@ -13,7 +13,7 @@
           required
           rows="1"
           max-rows="1"
-          v-on:keyup.enter="enviarComentario()"
+          v-on:keyup.ctrl.enter="enviarComentario()"
         />
         <b-row class="mt-2">
           <b-col class="text-left">

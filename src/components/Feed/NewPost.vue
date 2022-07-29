@@ -8,6 +8,7 @@
         rows="6"
         placeholder="Diga algo novo aos seus colegas!"
         required
+        v-on:keyup.ctrl.enter="enviarPost()"
       />
       <b-row id="anexos" class="ml-2">
         <b-col class="">
