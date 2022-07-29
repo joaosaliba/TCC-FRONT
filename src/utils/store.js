@@ -60,24 +60,28 @@ export default new Vuex.Store({
         });
     },
 
-    logOutUsuario(context) {
-      context.commit("UPDATE_USUARIO", {
-        usuario: {
-          id: "",
-          nome: "",
-          email: "",
-          birthdate: "",
-          phonenumber: "",
-          picture: "",
-          user_type: "",
-          cpf: "",
-        },
-      });
+    async logOutUsuario(context) {
+      return await api
+        .logout({ token: window.localStorage.token })
+        .then((response) => {
+          context.commit("UPDATE_USUARIO", {
+            usuario: {
+              id: "",
+              nome: "",
+              email: "",
+              birthdate: "",
+              phonenumber: "",
+              picture: "",
+              user_type: "",
+              cpf: "",
+            },
+          });
 
-      context.commit("UPDATE_LOGIN", false);
-      context.commit("UPDATE_ADMIN", false);
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("logged");
+          context.commit("UPDATE_LOGIN", false);
+          context.commit("UPDATE_ADMIN", false);
+          window.localStorage.removeItem("token");
+          window.localStorage.removeItem("logged");
+        });
     },
   },
   getters: {

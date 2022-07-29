@@ -41,7 +41,7 @@ export const api = {
     return axiosInstance.post("api-token-auth/", body);
   },
   logout(body) {
-    return axiosInstance.post("api-auth/logout/", body);
+    return axiosInstance.post("logout_token/", body);
   },
 };
 
