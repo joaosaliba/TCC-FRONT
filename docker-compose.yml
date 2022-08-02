@@ -6,13 +6,12 @@ services:
     networks: 
       - redefelicidade
     image: node:10
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '8080:8080'
-    volumes:
-      - ./:/app
-    working_dir: /app
-    command: ['npm', 'run', 'serve']
+      - '8080:8081'
+    
     
 networks:
   redefelicidade:

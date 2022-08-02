@@ -1,5 +1,5 @@
 # estágio de compilação
-FROM node:10 as build-stage
+FROM node:10-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -11,5 +11,5 @@ FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY default.conf /etc/nginx/conf.d
-EXPOSE 80
+EXPOSE 8081
 CMD ["nginx", "-g", "daemon off;"]
