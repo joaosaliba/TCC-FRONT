@@ -182,11 +182,10 @@ export default {
   },
   computed: {
     userPerfilID() {
-      return this.$route.path == "/perfil" ? this.user.id : null;
+      return this.$route.path == "/perfil" ? this.$route.query.userId : null;
     },
   },
   beforeMount() {
-    this.user = this.$store.getters.getUser;
     this.listarPostsFollowing(this.userPerfilID);
   },
   mounted() {

@@ -10,9 +10,19 @@
     <div>
       <h5>{{ user.user_type }}</h5>
     </div>
-    <div>
+    <div v-if="user.id == userLogado.id">
       <b-btn @click="showModal()" class="btn-clear"> Editar Perfil </b-btn>
     </div>
+    <div v-else>
+      <b-btn
+        @click="follow(user)"
+        :variant="atualUserAtualSegue ? 'outline-danger' : 'outline-success'"
+      >
+        {{ atualUserAtualSegue ? "Unfollow" : "Follow" }}
+      </b-btn>
+    </div>
+    <i class="fas fa-user mt-2" /> {{ user.profile.follower_count }}
+
     <!-- <div class="box">
       <h2>Forúm</h2>
       <b-row class="justify-content-start"> Teste </b-row>
@@ -45,13 +55,23 @@ export default {
       user: {
         picture: null,
       },
+      userLogado: {},
     };
   },
   methods: {
+    follow(user) {
+      const vm = this;
+      let obj = {
+        followin: user.id,
+      };
+      vm.$api.post(`/follow/`, obj).then((resp) => {
+        this.pegarUsuario();
+      });
+    },
     pegarUsuario() {
       const vm = this;
       vm.$api
-        .get(`user/${this.user.id}/`)
+        .get(`user/${this.userPerfilID}/`)
         .then((resp) => {
           this.user = resp.data;
         })
@@ -59,14 +79,23 @@ export default {
     },
     async buscarDados() {
       await this.$store.dispatch("getUsuario");
-      this.user = store.getters.getUser;
+      this.userLogado = store.getters.getUser;
     },
 
     showModal() {
       this.$bvModal.show("modal-perfil");
     },
   },
+  computed: {
+    atualUserAtualSegue() {
+      return this.user.profile.follower.includes(this.userLogado.email);
+    },
+    userPerfilID() {
+      return this.$route.query.userId;
+    },
+  },
   mounted() {
+    this.pegarUsuario();
     this.buscarDados();
   },
   // computed:{

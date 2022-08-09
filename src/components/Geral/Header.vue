@@ -38,8 +38,10 @@ export default {
 
   methods: {
     irPara(rota) {
+      let user = this.$store.getters.getUser;
       this.$router.push({
         path: rota,
+        query: { userId: user.id },
       });
     },
 

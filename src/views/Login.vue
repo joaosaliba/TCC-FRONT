@@ -95,9 +95,11 @@ export default {
         .then((response) => {
           this.$store.dispatch("getUsuario");
           this.loading = false;
+          let user = this.$store.getters.getUser;
           setTimeout(() => {
             this.$router.push({
               path: "/feed",
+              query: { userId: user.id },
             });
           }, 50);
         })
