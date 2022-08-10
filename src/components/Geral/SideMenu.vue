@@ -1,7 +1,7 @@
 <template>
-  <div class="sideMenu">
+  <nav class="sideMenu">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
-    <div class="foto-perfil">
+    <div class="ml-4 mt-2 foto-perfil">
       <img :src="user.picture" alt="foto-perfil mb-4" />
     </div>
     <div>
@@ -37,7 +37,7 @@
     <!-- </b-col> -->
 
     <ModalEditarPerfil @buscarDados="buscarDados()" />
-  </div>
+  </nav>
 </template>
 
 <script>
@@ -54,6 +54,9 @@ export default {
     return {
       user: {
         picture: null,
+        profile: {
+          follower: 0,
+        },
       },
       userLogado: {},
     };
@@ -68,12 +71,12 @@ export default {
         this.pegarUsuario();
       });
     },
-    pegarUsuario() {
+    async pegarUsuario() {
       const vm = this;
-      vm.$api
+      await vm.$api
         .get(`user/${this.userPerfilID}/`)
         .then((resp) => {
-          this.user = resp.data;
+          return (this.user = resp.data);
         })
         .catch((r) => {});
     },
@@ -94,9 +97,15 @@ export default {
       return this.$route.query.userId;
     },
   },
+  watch: {
+    userPerfilID() {
+      this.pegarUsuario();
+      this.buscarDados();
+    },
+  },
   mounted() {
-    this.pegarUsuario();
     this.buscarDados();
+    this.pegarUsuario();
   },
   // computed:{
   //   user(){
@@ -109,26 +118,28 @@ export default {
 
 <style>
 .sideMenu {
-  margin: 3% 10px 10px 10px;
   position: relative;
+  justify-content: center;
   text-align: center;
   z-index: 2;
   background-color: transparent;
-  max-width: 250px;
-  width: auto;
+  max-width: 285px;
+  min-width: 285px;
   overflow-x: hidden;
   overflow-y: auto;
   color: #0b4f6c;
+}
+@media screen {
 }
 .box {
   padding: 10 10;
   margin-left: 10%;
   margin-top: 10%;
-  text-align: left;
+  text-align: center;
   align-items: center;
 }
 .foto-perfil {
-  display: flex;
+  display: fixed;
   border-radius: 15px;
   padding: 10px 10px;
   max-width: 240px;

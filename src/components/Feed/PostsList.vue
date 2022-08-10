@@ -4,6 +4,19 @@
       border-variant="transparent"
       bg-variant="transparent"
       class="mt-1"
+      v-if="posts.length < 1"
+    >
+      <b-row class="text-center">
+        <b-col class="text-center">
+          <h3>Nenhum post foi feito por esse user.</h3>
+        </b-col>
+      </b-row>
+    </b-card>
+    <b-card
+      v-else
+      border-variant="transparent"
+      bg-variant="transparent"
+      class="mt-1"
       v-for="(post, index) in posts"
       :key="post.id"
     >
@@ -183,6 +196,11 @@ export default {
   computed: {
     userPerfilID() {
       return this.$route.path == "/perfil" ? this.$route.query.userId : null;
+    },
+  },
+  watch: {
+    userPerfilID() {
+      this.listarPostsFollowing(this.userPerfilID);
     },
   },
   beforeMount() {

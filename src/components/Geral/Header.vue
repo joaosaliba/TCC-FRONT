@@ -1,9 +1,9 @@
 <template>
   <header>
     <nav>
-      <router-link to="/feed" class="logo">
-        <img alt="logo " src="@/assets/img/logo.svg" />
-      </router-link>
+      <div @click="irPara('/feed')" class="logo">
+        <img @click="irPara('/feed')" alt="logo " src="@/assets/img/logo.svg" />
+      </div>
       <div v-for="(item, index) in items" :key="index">
         <b-btn
           pill
@@ -13,7 +13,9 @@
           {{ item.nome }}
         </b-btn>
       </div>
-
+      <b-col cols="2">
+        <Search />
+      </b-col>
       <router-link to="/login">
         <b-btn class="btn" @click="logout()">Logout</b-btn>
       </router-link>
@@ -22,7 +24,9 @@
 </template>
 
 <script>
+import Search from "@/components/Geral/Search";
 export default {
+  components: { Search },
   name: "Header",
   data() {
     return {
@@ -39,10 +43,12 @@ export default {
   methods: {
     irPara(rota) {
       let user = this.$store.getters.getUser;
-      this.$router.push({
-        path: rota,
-        query: { userId: user.id },
-      });
+      this.$router
+        .push({
+          path: rota,
+          query: { userId: user.id },
+        })
+        .catch(() => {});
     },
 
     logout() {
