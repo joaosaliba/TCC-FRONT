@@ -15,7 +15,7 @@
     <b-card class="list-out" v-if="resposta.length > 0">
       <b-row cols="12">
         <b-col class="text-right">
-          <i @click="resposta = []" class="fas fa-times" />
+          <i @click="clear" class="fas fa-times" />
         </b-col>
       </b-row>
       <a
@@ -72,11 +72,17 @@ export default {
         this.nextPage = resp.data.next;
       });
     },
+    clear() {
+      this.resposta = [];
+      this.serachString = "";
+    },
+
     goToPerfil(e) {
       this.$router.push({
         path: "/perfil",
         query: { userId: e.id },
       });
+      this.clear();
     },
   },
 };

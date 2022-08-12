@@ -10,6 +10,12 @@
     <div>
       <h5>{{ user.user_type }}</h5>
     </div>
+    <div v-if="user.profile.birthdate">
+      <h5>
+        {{ user.profile.birthdate.split("-").reverse().join("/") }}
+      </h5>
+    </div>
+
     <div v-if="user.id == userLogado.id">
       <b-btn @click="showModal()" class="btn-clear"> Editar Perfil </b-btn>
     </div>
@@ -56,6 +62,7 @@ export default {
         picture: null,
         profile: {
           follower: 0,
+          birthdate: null,
         },
       },
       userLogado: {},
@@ -80,18 +87,23 @@ export default {
         })
         .catch((r) => {});
     },
-    async buscarDados() {
+    async buscarDadosUser() {
       await this.$store.dispatch("getUsuario");
       this.userLogado = store.getters.getUser;
     },
-
+    async buscarDados() {
+      await this.buscarDadosUser();
+      this.pegarUsuario();
+    },
     showModal() {
       this.$bvModal.show("modal-perfil");
     },
   },
   computed: {
     atualUserAtualSegue() {
-      return this.user.profile.follower.includes(this.userLogado.email);
+      return this.user.profile.follower.lenght > 0
+        ? this.user.profile.follower.includes(this.userLogado.email)
+        : false;
     },
     userPerfilID() {
       return this.$route.query.userId;
@@ -99,13 +111,11 @@ export default {
   },
   watch: {
     userPerfilID() {
-      this.pegarUsuario();
       this.buscarDados();
     },
   },
   mounted() {
     this.buscarDados();
-    this.pegarUsuario();
   },
   // computed:{
   //   user(){
