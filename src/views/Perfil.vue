@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div class="wrapper" id="feed">
-      <div>
-        <SideMenu />
-      </div>
+    <div id="feed">
       <b-card class="perfil-class p-4 mt-2">
         <PostsList onscroll="getNextUser" ref="postList" />
       </b-card>
@@ -14,11 +11,10 @@
 <script>
 // @ is an alias to /src
 import PostsList from "@/components/Feed/PostsList";
-import SideMenu from "@/components/Geral/SideMenu.vue";
 
 export default {
   name: "Perfil",
-  components: { PostsList, SideMenu },
+  components: { PostsList },
 };
 </script>
 

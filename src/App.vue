@@ -9,8 +9,7 @@
 
 export default {
   name: "App",
-  components: {
-  },
+  components: {},
 };
 </script>
 
@@ -18,7 +17,6 @@ export default {
 @import "~@/assets/scss/vendors/bootstrap-vue/index";
 @import "assets/css/main.css";
 @import "~@/assets/fonts/fontawesome/css/all.css";
-
 
 * {
   box-sizing: border-box;

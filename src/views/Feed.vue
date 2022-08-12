@@ -1,10 +1,7 @@
 <template>
   <div back-rede>
-    <div class="wrapper" id="feed">
-      <div>
-        <SideMenu />
-      </div>
-      <b-card class="feed-class p-4 mt-2">
+    <div id="feed">
+      <b-card class="feed-class p-3 mt-2">
         <NewPost @atualizarPost="atualizarLista" />
         <PostsList onscroll="getNextUser" ref="postList" />
       </b-card>
@@ -17,14 +14,12 @@
 <script>
 // @ is an alias to /src
 
-import SideMenu from "@/components/Geral/SideMenu.vue";
 import NewPost from "@/components/Feed/NewPost.vue";
 import PostsList from "@/components/Feed/PostsList";
 
 export default {
-  name: "ViewAfterLogin",
+  name: "Feed",
   components: {
-    SideMenu,
     NewPost,
     PostsList,
   },
@@ -35,11 +30,7 @@ export default {
   },
 };
 </script>
-<style scoped>
-.wrapper {
-  display: grid;
-  grid-template-columns: 1fr 3.5fr 1fr;
-}
+<style >
 .feed-class {
   background-color: rgba(255, 255, 255, 0.79);
   border-radius: 50px;

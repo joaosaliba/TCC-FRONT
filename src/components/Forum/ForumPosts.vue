@@ -12,11 +12,10 @@
         </b-col>
       </b-row>
     </b-card>
-    <b-card
+    <div
+      style="overflow-x: hidden"
       v-else
-      border-variant="transparent"
-      bg-variant="transparent"
-      class="mt-1"
+      class="mt-2"
       v-for="(post, index) in posts"
       :key="post.id"
     >
@@ -89,7 +88,7 @@
           :postID="post.id"
         />
       </b-collapse>
-    </b-card>
+    </div>
     <b-col class="text-center mt-2" v-if="!!nextPage">
       <a class="fas fa-plus" @click="loadMore()"> Carregar Mais</a></b-col
     >
@@ -99,11 +98,11 @@
 <script>
 import Comments from "@/components/Comments/Comments";
 export default {
-  name: "PostsList",
+  name: "ForumPosts",
   components: {
     Comments,
   },
-  props: ["isProfile", "categoryId"],
+  props: ["categoryId"],
   data() {
     return {
       posts: [],
@@ -161,18 +160,14 @@ export default {
     },
     listarPostsFollowing(id) {
       const vm = this;
-      let url = "post/";
       let querys = {
         page: 1,
         itens: 5,
         category: this.categoryId,
       };
-      if (id) {
-        url += `user/${id}/`;
-      }
       this.posts = [];
       vm.$api
-        .get(`${url}`, { params: querys })
+        .get(`post/`, { params: querys })
         .then((resp) => {
           resp.data.results.forEach((p) => this.posts.push(p));
           this.nextPage = resp.data.next;

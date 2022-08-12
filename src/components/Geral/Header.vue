@@ -33,7 +33,7 @@ export default {
       items: [
         { nome: "Feed", rota: "/feed" },
         { nome: "Perfil", rota: "/perfil" },
-        { nome: "Forum", rota: "/forum" },
+        { nome: "Fórum", rota: "/forum" },
         { nome: "Grupos", rota: "/grupos" },
         { nome: "Formulários", rota: "/formularios" },
       ],

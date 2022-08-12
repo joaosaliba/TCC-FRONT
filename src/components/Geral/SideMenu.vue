@@ -1,34 +1,45 @@
 <template>
-  <nav class="sideMenu">
+  <nav class="sideMenu text-center">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
-    <div class="ml-4 mt-2 foto-perfil">
-      <img :src="user.picture" alt="foto-perfil mb-4" />
-    </div>
     <div>
-      <h4>{{ user.nome }}</h4>
-    </div>
-    <div>
+      <div class="foto-perfil">
+        <img :src="user.picture" alt="foto-perfil " />
+      </div>
       <h5>{{ user.user_type }}</h5>
-    </div>
-    <div v-if="user.profile.birthdate">
-      <h5>
-        {{ user.profile.birthdate.split("-").reverse().join("/") }}
+      <h4><b>Nome:</b>{{ user.nome }}</h4>
+      <h5><b>Email:</b>{{ user.email }}</h5>
+
+      <h5 v-if="user.profile.birthdate">
+        <b>Idade:</b>
+        {{
+          idade(
+            user.profile.birthdate.split("-")[0],
+            user.profile.birthdate.split("-")[2],
+            user.profile.birthdate.split("-")[2]
+          )
+        }}
+        anos
       </h5>
-    </div>
 
-    <div v-if="user.id == userLogado.id">
-      <b-btn @click="showModal()" class="btn-clear"> Editar Perfil </b-btn>
-    </div>
-    <div v-else>
-      <b-btn
-        @click="follow(user)"
-        :variant="atualUserAtualSegue ? 'outline-danger' : 'outline-success'"
-      >
-        {{ atualUserAtualSegue ? "Unfollow" : "Follow" }}
-      </b-btn>
-    </div>
-    <i class="fas fa-user mt-2" /> {{ user.profile.follower_count }}
+      <div>
+        <b-btn
+          v-if="user.id == userLogado.id"
+          @click="showModal()"
+          class="btn-clear"
+        >
+          Editar Perfil
+        </b-btn>
 
+        <b-btn
+          v-else
+          @click="follow(user)"
+          :variant="atualUserAtualSegue ? 'outline-danger' : 'outline-success'"
+        >
+          {{ atualUserAtualSegue ? "Unfollow" : "Follow" }}
+        </b-btn>
+      </div>
+      <i class="fas fa-user mt-2" /> {{ user.profile.follower_count }}
+    </div>
     <!-- <div class="box">
       <h2>Forúm</h2>
       <b-row class="justify-content-start"> Teste </b-row>
@@ -69,6 +80,25 @@ export default {
     };
   },
   methods: {
+    idade(ano, mes, dia) {
+      var d = new Date(),
+        ano_atual = d.getFullYear(),
+        mes_atual = d.getMonth() + 1,
+        dia_atual = d.getDate(),
+        ano_aniversario = +ano,
+        mes_aniversario = +mes,
+        dia_aniversario = +dia,
+        quantos_anos = ano_atual - ano_aniversario;
+
+      if (
+        mes_atual < mes_aniversario ||
+        (mes_atual == mes_aniversario && dia_atual < dia_aniversario)
+      ) {
+        quantos_anos--;
+      }
+
+      return quantos_anos < 0 ? 0 : quantos_anos;
+    },
     follow(user) {
       const vm = this;
       let obj = {
@@ -128,51 +158,45 @@ export default {
 
 <style>
 .sideMenu {
-  position: relative;
-  justify-content: center;
-  text-align: center;
+  justify-content: center !important;
   z-index: 2;
   background-color: transparent;
-  max-width: 285px;
-  min-width: 285px;
+  max-width: 100%;
+  width: auto;
   overflow-x: hidden;
   overflow-y: auto;
   color: #0b4f6c;
+
+  margin: 2% 5% 0% 5%;
 }
 @media screen {
 }
 .box {
   padding: 10 10;
-  margin-left: 10%;
-  margin-top: 10%;
   text-align: center;
   align-items: center;
 }
 .foto-perfil {
-  display: fixed;
-  border-radius: 15px;
-  padding: 10px 10px;
-  max-width: 240px;
+  border-radius: 5%;
+  padding: 3% 3%;
+  max-width: 285px;
   width: auto;
-  max-height: 240px;
+  max-height: 285px;
   height: auto;
-  justify-content: center;
 
+  justify-content: center;
+  margin: auto;
   background-color: rgba(255, 255, 255);
 }
 .foto-perfil img {
-  border-radius: 15px;
-  max-width: 220px;
-  max-height: 220px;
-  height: auto;
-  width: auto;
+  border-radius: 5%;
 }
 .btn-clear {
   background-color: transparent;
   color: #0b4f6c;
   border-color: transparent;
   padding: 0;
-  font-size: 18px;
+  font-size: 100%;
 }
 .btn-clear:hover {
   text-decoration: underline;
@@ -180,7 +204,7 @@ export default {
   color: #0b4f6c;
   border-color: transparent;
   padding: 0;
-  font-size: 18px;
+  font-size: 100%;
 }
 .btn-clear:focus {
   text-decoration: underline;
@@ -188,7 +212,7 @@ export default {
   color: #0b4f6c;
   border-color: transparent;
   padding: 0;
-  font-size: 18px;
+  font-size: 100%;
   box-shadow: none;
 }
 .btn-clear:active {
@@ -197,7 +221,7 @@ export default {
   color: #0b4f6c;
   border-color: transparent;
   padding: 0;
-  font-size: 18px;
+  font-size: 100%;
   box-shadow: none;
 }
 </style>

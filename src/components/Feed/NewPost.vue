@@ -1,7 +1,18 @@
 <template>
   <div>
     <div id="v-model-textarea" class="textarea-container my-1">
+      <b-form-input
+        id="novidades"
+        class="novidades"
+        v-model="post.comentario"
+        placeholder="Pergunte no f"
+        rows="6"
+        required
+        v-on:keyup.ctrl.enter="enviarPost()"
+        v-if="categoryId"
+      />
       <b-form-textarea
+        v-else
         id="novidades"
         class="novidades"
         v-model="post.comentario"
@@ -10,64 +21,50 @@
         required
         v-on:keyup.ctrl.enter="enviarPost()"
       />
-      <b-row id="anexos" class="ml-2">
-        <b-col class="">
-          <input
-            id="imageInput-post"
-            type="file"
-            accept="image/jpeg, image/png"
-            @input="onSelectImg"
-            hidden
-          />
+      <b-row id="btn-check" class="mr-1">
+        <input
+          id="imageInput-post"
+          type="file"
+          accept="image/jpeg, image/png"
+          @input="onSelectImg"
+          hidden
+        />
 
-          <b-btn
-            v-if="post.img == null"
-            @click="chooseImage()"
-            variant="transparent"
-          >
-            <i @click="chooseImage()" class="blue fas fa-image fa-lg"></i>
-          </b-btn>
-          <b-btn
-            @click="post.img = null"
-            pill
-            size="sm"
-            v-else
-            variant="danger"
-            class="mr-1"
-          >
-            <i class="fas fa-times fa-sm" />
-            {{ post.img ? post.img.name : "" }}
-          </b-btn>
+        <b-btn
+          v-if="post.img == null"
+          @click="chooseImage()"
+          variant="transparent"
+        >
+          <i @click="chooseImage()" class="blue fas fa-image fa-lg"></i>
+        </b-btn>
+        <b-btn
+          @click="post.img = null"
+          pill
+          size="sm"
+          v-else
+          variant="danger"
+          class="mr-1"
+        >
+          <i class="fas fa-times fa-sm" />
+          {{ post.img ? post.img.name : "" }}
+        </b-btn>
 
-          <input @input="onSelectFile" id="fileInput-post" type="file" hidden />
-          <b-btn
-            v-if="post.file == null"
-            @click="chooseFiles()"
-            variant="transparent"
-          >
-            <i class="fas fa-paperclip fa-lg"></i>
-          </b-btn>
-          <b-btn
-            @click="post.file = null"
-            pill
-            size="sm"
-            v-else
-            variant="danger"
-          >
-            <i class="fas fa-times fa-sm" />
-            {{ post.file ? post.file.name : "" }}
-          </b-btn>
-        </b-col>
+        <input @input="onSelectFile" id="fileInput-post" type="file" hidden />
+        <b-btn
+          v-if="post.file == null"
+          @click="chooseFiles()"
+          variant="transparent"
+        >
+          <i class="fas fa-paperclip fa-lg"></i>
+        </b-btn>
+        <b-btn @click="post.file = null" pill size="sm" v-else variant="danger">
+          <i class="fas fa-times fa-sm" />
+          {{ post.file ? post.file.name : "" }}
+        </b-btn>
+        <b-btn @click="enviarPost()" variant="transparent" size="lg">
+          <i class="green fas fa-check fa-lg" />
+        </b-btn>
       </b-row>
-
-      <b-btn
-        id="btn-check"
-        @click="enviarPost()"
-        variant="transparent"
-        size="lg"
-      >
-        <i class="green fas fa-check fa-lg" />
-      </b-btn>
     </div>
   </div>
 </template>
@@ -75,6 +72,7 @@
 <script>
 export default {
   name: "NewPost",
+  props: ["categoryId"],
   data() {
     return {
       post: {
@@ -124,7 +122,7 @@ export default {
       data.append("body", vm.post.comentario);
       if (vm.post.img) data.append("post_image", vm.post.img);
       if (vm.post.file) data.append("post_file", vm.post.file);
-
+      if (vm.categoryId) data.append("category", vm.categoryId);
       vm.$api
         .post("post/", data, {
           headers: {
