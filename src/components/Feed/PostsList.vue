@@ -206,8 +206,10 @@ export default {
   beforeMount() {
     this.listarPostsFollowing(this.userPerfilID);
   },
-  mounted() {
+  async mounted() {
     this.listarPostsFollowingNext();
+    await this.$store.dispatch("getUsuario");
+    this.user = this.$store.getters.getUser;
   },
 };
 </script>

@@ -5,7 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     login: false,
     admin: false,
@@ -97,3 +97,4 @@ export default new Vuex.Store({
   },
   plugins: [createPersistedState()],
 });
+export default store;
