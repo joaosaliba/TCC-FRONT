@@ -5,7 +5,7 @@
         id="novidades"
         class="novidades"
         v-model="post.comentario"
-        placeholder="Pergunte no f"
+        placeholder="Pergunte no fórum"
         rows="6"
         required
         v-on:keyup.ctrl.enter="enviarPost()"
@@ -131,7 +131,7 @@ export default {
         })
         .then((resp) => {
           vm.limparForm();
-          this.$emit("atualizarPost");
+          this.$bus.$emit("atualizarPost", true);
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);

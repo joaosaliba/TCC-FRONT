@@ -22,8 +22,11 @@
         </b-col>
       </b-row>
       <b-collapse v-model="collapsed[index]">
-        <NewPost :categoryId="category.id" />
-        <PostsList :categoryId="category.id" />
+        <NewPost
+          @atualizarPost="atualizarLista(index)"
+          :categoryId="category.id"
+        />
+        <PostsList :ref="'forum-' + index" :categoryId="category.id" />
       </b-collapse>
     </div>
   </div>
@@ -42,10 +45,13 @@ export default {
     return {
       categorys: [],
       nextPage: null,
-      collapsed: [],
+      collapsed: [true],
     };
   },
   methods: {
+    atualizarLista(index) {
+      this.$refs["forum-" + index].limparEListarPostsFollowing();
+    },
     toggleCollapsed: function (i) {
       this.$set(this.collapsed, i, !this.collapsed[i]);
     },

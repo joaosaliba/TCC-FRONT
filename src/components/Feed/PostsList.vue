@@ -161,18 +161,15 @@ export default {
     },
     listarPostsFollowing(id) {
       const vm = this;
-      let url = "post/";
       let querys = {
         page: 1,
         itens: 5,
         category: this.categoryId,
       };
-      if (id) {
-        url += `user/${id}/`;
-      }
+
       this.posts = [];
       vm.$api
-        .get(`${url}`, { params: querys })
+        .get(`post/${id ? `user/${id}/` : ""}`, { params: querys })
         .then((resp) => {
           resp.data.results.forEach((p) => this.posts.push(p));
           this.nextPage = resp.data.next;
@@ -210,12 +207,19 @@ export default {
     },
   },
   beforeMount() {
+    this.$bus.$on("atualizarPost", () => {
+      this.listarPostsFollowingNext();
+    });
     this.listarPostsFollowing(this.userPerfilID);
   },
   async mounted() {
     this.listarPostsFollowingNext();
     await this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
+    this.$bus.$on("atualizarPost", () => {
+      this.listarPostsFollowing();
+      console.log("ENTROU");
+    });
   },
 };
 </script>

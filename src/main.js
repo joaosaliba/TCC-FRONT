@@ -25,3 +25,4 @@ Vue.use({
     Vue.prototype.$store = store;
   },
 });
+Vue.prototype.$bus = new Vue({});
