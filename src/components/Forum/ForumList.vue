@@ -39,7 +39,7 @@
           >
 
           <i
-            v-if="category.created_by.id == user.id"
+            v-if="isAdmin"
             @click="deleteCategory(category.id)"
             variant="danger"
             class="fas fa-trash danger ml-2"
@@ -75,6 +75,7 @@ export default {
       nextPage: null,
       collapsed: [],
       user: {},
+      isAdmin: false,
     };
   },
   methods: {
@@ -148,6 +149,7 @@ export default {
     this.listarCategorysNext();
     await this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
+    this.isAdmin = this.$store.getters.isAdmin;
   },
 };
 </script>

@@ -26,3 +26,5 @@ Vue.use({
   },
 });
 Vue.prototype.$bus = new Vue({});
+
+export default new Vue()

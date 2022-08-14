@@ -4,7 +4,7 @@
       border-variant="transparent"
       bg-variant="transparent"
       class="mt-1"
-      v-if="posts.length < 1"
+      v-if="posts.length < 0"
     >
       <b-row class="text-center">
         <b-col class="text-center">
@@ -45,6 +45,18 @@
       <b-row class="text-left ml-5 mt-2">
         <b-col>
           {{ post.body }}
+        </b-col>
+      </b-row>
+      <b-row class="text-center">
+        <b-col>
+          <b-btn
+            variant="outline-info"
+            pill
+            v-if="post.post_file"
+            @click="downloadFile(post.post_file)"
+          >
+            Download Arquvivo Compartilhado
+          </b-btn>
         </b-col>
       </b-row>
       <b-img
@@ -113,6 +125,9 @@ export default {
     };
   },
   methods: {
+    downloadFile(post_file) {
+      window.open(post_file);
+    },
     likePost(post, index, like) {
       const vm = this;
       let param = {
@@ -207,9 +222,6 @@ export default {
     },
   },
   beforeMount() {
-    this.$bus.$on("atualizarPost", () => {
-      this.listarPostsFollowingNext();
-    });
     this.listarPostsFollowing(this.userPerfilID);
   },
   async mounted() {
