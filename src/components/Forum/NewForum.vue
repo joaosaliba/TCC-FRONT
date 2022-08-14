@@ -4,7 +4,9 @@
       <b-row>
         <b-col>
           <label>Descrição:</label>
-          <b-input v-model="descricao" />
+          <b-input-group prepend="Fórum" class="mb-2 mr-sm-2 mb-sm-0">
+            <b-input c v-model="descricao" />
+          </b-input-group>
         </b-col>
       </b-row>
       <b-row class="mt-2 text-center" align-h="around">

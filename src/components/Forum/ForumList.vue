@@ -92,7 +92,7 @@ export default {
     salvar(descricao) {
       const vm = this;
       let obj = {
-        name: descricao.toUpperCase(),
+        name: "Fórum ".toUpperCase() + descricao.toUpperCase(),
         is_active: true,
       };
       vm.$api.post(`/category/`, obj).then((resp) => {
