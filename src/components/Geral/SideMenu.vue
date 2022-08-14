@@ -105,6 +105,7 @@ export default {
         followin: user.id,
       };
       vm.$api.post(`/follow/`, obj).then((resp) => {
+        this.$bus.$emit("atualizarFollowers");
         this.pegarUsuario();
       });
     },

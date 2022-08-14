@@ -230,7 +230,6 @@ export default {
     this.user = this.$store.getters.getUser;
     this.$bus.$on("atualizarPost", () => {
       this.listarPostsFollowing();
-      console.log("ENTROU");
     });
   },
 };
