@@ -7,7 +7,7 @@
       </div>
       <h5>{{ user.user_type }}</h5>
       <h4><b>Nome:</b>{{ user.nome }}</h4>
-      <h5><b>Email:</b>{{ user.email }}</h5>
+      <h6><b>Email:</b>{{ user.email }}</h6>
 
       <h5 v-if="user.profile.birthdate">
         <b>Idade:</b>
@@ -131,7 +131,7 @@ export default {
   },
   computed: {
     atualUserAtualSegue() {
-      return this.user.profile.follower.lenght > 0
+      return this.user.profile.follower.length > 0
         ? this.user.profile.follower.includes(this.userLogado.email)
         : false;
     },

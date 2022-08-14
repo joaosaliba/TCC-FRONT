@@ -1,10 +1,27 @@
 <template>
   <div>
+    <b-row>
+      <b-col>
+        <h4>
+          <i class="fas fa-list fa-fw" />
+          <a><b> Fórum </b></a>
+        </h4>
+      </b-col>
+      <b-col class="text-right mb-4">
+        <b-btn
+          @click="newForumAdd"
+          pill
+          style="background-color: #0b4f6c; color: white"
+          size="lg"
+        >
+          Novo Fórum
+        </b-btn>
+      </b-col>
+    </b-row>
     <div v-for="(category, index) in categorys" :key="category.id">
       <b-row>
         <b-col>
           <h5 style="color: #0b4f6c" @click="toggleCollapsed(index)">
-            <i class="fas fa-list fa-fw" />
             <a
               ><b> {{ category.name }} </b></a
             >
@@ -29,33 +46,51 @@
         <PostsList :ref="'forum-' + index" :categoryId="category.id" />
       </b-collapse>
     </div>
+    <NewForum ref="new-forum" @salvar="salvar" />
   </div>
 </template>
 
 <script>
 import PostsList from "@/components/Feed/PostsList";
 import NewPost from "@/components/Feed/NewPost";
+import NewForum from "@/components/Forum/NewForum";
 export default {
   name: "ForumList",
   components: {
     PostsList,
     NewPost,
+    NewForum,
   },
   data() {
     return {
       categorys: [],
       nextPage: null,
-      collapsed: [true],
+      collapsed: [],
     };
   },
   methods: {
+    salvar(descricao) {
+      console.log(descricao);
+      const vm = this;
+      let obj = {
+        name: descricao.toUpperCase(),
+        is_active: true,
+      };
+      vm.$api.post(`/category/`, obj).then((resp) => {
+        this.listarCategorys();
+      });
+    },
+    newForumAdd() {
+      this.$bvModal.show("new-forum");
+      this.$refs["new-forum"].descricao = "";
+    },
     atualizarLista(index) {
       this.$refs["forum-" + index].limparEListarPostsFollowing();
     },
     toggleCollapsed: function (i) {
       this.$set(this.collapsed, i, !this.collapsed[i]);
     },
-    listarCategorysFollowing() {
+    listarCategorys() {
       const vm = this;
 
       this.categorys = [];
@@ -76,7 +111,7 @@ export default {
         this.nextPage = resp.data.next;
       });
     },
-    listarCategorysFollowingNext() {
+    listarCategorysNext() {
       window.onscroll = () => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
@@ -88,10 +123,10 @@ export default {
     },
   },
   beforeMount() {
-    this.listarCategorysFollowing(this.userPerfilID);
+    this.listarCategorys(this.userPerfilID);
   },
   async mounted() {
-    this.listarCategorysFollowingNext();
+    this.listarCategorysNext();
     await this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
   },

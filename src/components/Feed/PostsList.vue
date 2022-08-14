@@ -8,7 +8,7 @@
     >
       <b-row class="text-center">
         <b-col class="text-center">
-          <h3>Nenhum post foi feito por esse user.</h3>
+          <h3>Nenhum post foi feito .</h3>
         </b-col>
       </b-row>
     </b-card>
@@ -25,7 +25,7 @@
           <b-avatar :src="post.created_by.picture" class="mr-4" />
 
           <b>{{ post.created_by.nome }}</b> postou no
-          <b>{{ !!post.category ? " fórum " + post.category.name : "Feed" }}</b>
+          <b>{{ !!post.category ? post.category.name : "Feed" }}</b>
         </b-col>
 
         <b-col class="text-right">
