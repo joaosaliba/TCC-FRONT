@@ -14,27 +14,23 @@
     </b-row>
     <b-card class="list-out" v-if="resposta.length > 0">
       <b-row cols="12">
+        <b-col> Users: </b-col>
         <b-col class="text-right">
           <i @click="clear" class="fas fa-times" />
         </b-col>
       </b-row>
-      <a
-        class="mb-2"
-        @click="goToPerfil(r)"
-        cols="12"
-        v-for="r in resposta"
-        :key="r.id"
-      >
-        <b-row cols="12">
-          <b-col cols="4">
-            <b-avatar :src="r.picture" class="" />
-            <small> {{ r.user_type }}</small>
-          </b-col>
-          <b-col>
-            <h5 class="mt-2">{{ r.nome }}</h5>
-          </b-col>
-        </b-row>
-        <b-row> </b-row>
+      <a @click="goToPerfil(r)" cols="12" v-for="r in resposta" :key="r.id">
+        <b-card>
+          <b-row cols="12">
+            <b-col cols="4">
+              <b-avatar :src="r.picture" class="" />
+            </b-col>
+            <b-col cols="8">
+              <h6>{{ r.nome }}</h6>
+              <small> {{ r.user_type }}</small>
+            </b-col>
+          </b-row>
+        </b-card>
       </a>
       <b-col class="text-center mt-2" v-if="!!nextPage">
         <a class="fas fa-plus" @click="loadMore()"> Carregar Mais</a></b-col

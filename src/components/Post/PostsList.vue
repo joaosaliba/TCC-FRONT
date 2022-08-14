@@ -1,6 +1,6 @@
 <template>
   <div id="feed-posts" class="feed">
-    <b-card
+    <div
       border-variant="transparent"
       bg-variant="transparent"
       class="mt-1"
@@ -11,12 +11,12 @@
           <h3>Nenhum post foi feito .</h3>
         </b-col>
       </b-row>
-    </b-card>
-    <b-card
+    </div>
+    <div
       v-else
       border-variant="transparent"
       bg-variant="transparent"
-      class="mt-1"
+      class="mt-1 feed"
       v-for="(post, index) in posts"
       :key="post.id"
     >
@@ -89,7 +89,7 @@
           :postID="post.id"
         />
       </b-collapse>
-    </b-card>
+    </div>
     <b-col class="text-center mt-2" v-if="!!nextPage">
       <a class="fas fa-plus" @click="loadMore()"> Carregar Mais</a></b-col
     >
@@ -224,9 +224,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .feed {
   overflow: auto;
+  overflow-x: hidden;
 }
 .imgPost {
   border-radius: 3rem;

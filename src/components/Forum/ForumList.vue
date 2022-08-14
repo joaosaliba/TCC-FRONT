@@ -29,6 +29,7 @@
             <span v-else class="fas fa-plus" />
           </h5>
         </b-col>
+
         <b-col class="text-right">
           <small style="color: #0b4f6c">
             <b> {{ category.participants_count }}</b>
@@ -36,6 +37,13 @@
               category.participants_count > 1 ? "participantes" : "participante"
             }}</small
           >
+
+          <i
+            v-if="category.created_by.id == user.id"
+            @click="deleteCategory(category.id)"
+            variant="danger"
+            class="fas fa-trash danger ml-2"
+          />
         </b-col>
       </b-row>
       <b-collapse v-model="collapsed[index]">
@@ -66,9 +74,21 @@ export default {
       categorys: [],
       nextPage: null,
       collapsed: [],
+      user: {},
     };
   },
   methods: {
+    deleteCategory(id) {
+      const vm = this;
+      vm.$api
+        .delete(`category/${id}/`)
+        .then((resp) => {
+          this.categorys = this.categorys.filter((p) => p.id != id);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
     salvar(descricao) {
       const vm = this;
       let obj = {
