@@ -14,8 +14,8 @@
 <script>
 // @ is an alias to /src
 
-import NewPost from "@/components/Feed/NewPost.vue";
-import PostsList from "@/components/Feed/PostsList";
+import NewPost from "@/components/Post/NewPost.vue";
+import PostsList from "@/components/Post/PostsList";
 
 export default {
   name: "Feed",

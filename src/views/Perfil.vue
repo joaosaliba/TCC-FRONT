@@ -10,7 +10,7 @@
 
 <script>
 // @ is an alias to /src
-import PostsList from "@/components/Feed/PostsList";
+import PostsList from "@/components/Post/PostsList";
 
 export default {
   name: "Perfil",

@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import PostsList from "@/components/Feed/PostsList";
-import NewPost from "@/components/Feed/NewPost";
+import PostsList from "@/components/Post/PostsList";
+import NewPost from "@/components/Post/NewPost";
 import NewForum from "@/components/Forum/NewForum";
 export default {
   name: "ForumList",
@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     salvar(descricao) {
-      console.log(descricao);
       const vm = this;
       let obj = {
         name: descricao.toUpperCase(),
