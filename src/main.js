@@ -8,12 +8,17 @@ import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import store from "./utils/store";
 import VueTheMask from "vue-the-mask";
 import VueGoogleCharts from "vue-google-charts";
+import clickOutside from "@/utils/click-outside.js";
+
+import "@/assets/fonts/fontawesome/css/all.css";
 
 Vue.use(VueTheMask);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueGoogleCharts);
 
+Vue.directive("click-outside", clickOutside);
+Vue.prototype.$bus = new Vue({});
 new Vue({
   router,
   store,
@@ -25,6 +30,5 @@ Vue.use({
     Vue.prototype.$store = store;
   },
 });
-Vue.prototype.$bus = new Vue({});
 
-export default new Vue()
+export default new Vue();

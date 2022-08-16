@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div v-click-outside="clear">
     <b-row>
       <b-col class="mt-2" cols="1">
         <i class="fas fa-search" />
       </b-col>
       <b-col>
         <b-input
+          class="rounded"
           @input="search(serachString)"
           v-model="serachString"
           placeholder="Pesquisar"
@@ -33,7 +34,7 @@
         </b-card>
       </a>
       <b-col class="text-center mt-2" v-if="!!nextPage">
-        <a class="fas fa-plus" @click="loadMore()"> Carregar Mais</a></b-col
+        <a class="fas fa-plus" @click="loadMore()"> Mais</a></b-col
       >
     </b-card>
   </div>
@@ -91,5 +92,10 @@ export default {
   width: 100%;
   max-height: 40vh;
   overflow: auto;
+}
+.rounded {
+  border-radius: 20px !important;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px #00000029;
 }
 </style>

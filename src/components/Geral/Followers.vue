@@ -1,6 +1,6 @@
 <template>
-  <nav id="feed-posts" class="sideMenu">
-    <b-card class="feed-class">
+  <nav id="followers" class="sideMenu">
+    <b-card class="friends-class">
       <b-row class="text-center">
         <b-col>
           <h4>Seguidores</h4>
@@ -22,8 +22,8 @@
           <b-avatar :src="r.picture" class="" />
         </b-col>
         <b-col cols="8" class="text-left">
-          <h6>{{ r.nome }}</h6>
-          <small> {{ r.user_type }}</small>
+          <h4>{{ r.nome }}</h4>
+          <!-- <small> {{ r.user_type }}</small> -->
         </b-col>
       </b-row>
       <b-col class="text-center mt-2" v-if="!!nextPage">
@@ -74,16 +74,16 @@ export default {
         this.nextPage = resp.data.next;
       });
     },
-    listarFollowersNext() {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-        if (bottomOfWindow && this.nextPage) {
-          this.loadMore();
-        }
-      };
-    },
+    // listarFollowersNext() {
+    //   window.onscroll = () => {
+    //     let bottomOfWindow =
+    //       document.documentElement.scrollTop + window.innerHeight ===
+    //       document.documentElement.offsetHeight;
+    //     if (bottomOfWindow && this.nextPage) {
+    //       this.loadMore();
+    //     }
+    //   };
+    // },
   },
   computed: {
     userPerfilID() {
@@ -99,7 +99,7 @@ export default {
     this.followers();
   },
   mounted() {
-    this.listarFollowersNext();
+    // this.listarFollowersNext();
 
     this.$bus.$on("atualizarFollowers", () => {
       this.followers();
@@ -117,9 +117,14 @@ export default {
   width: auto !important;
   overflow-x: hidden;
   overflow-y: auto;
-  color: #0b4f6c;
+  color: whitesmoke;
 
   height: 100%;
   overflow-y: auto;
+}
+
+.friends-class {
+  background-color: #0b4f6c;
+  border-radius: 50px;
 }
 </style>

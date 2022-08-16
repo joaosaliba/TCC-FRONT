@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div id="forum">
     <b-row>
       <b-col>
-        <h4>
+        <h4 style="color: #0b4f6c">
           <i class="fas fa-list fa-fw" />
           <a><b> Fórum </b></a>
         </h4>
@@ -39,7 +39,7 @@
           >
 
           <i
-            v-if="isAdmin"
+            v-if="isAdmin || category.created_by.id == user.id"
             @click="deleteCategory(category.id)"
             variant="danger"
             class="fas fa-trash danger ml-2"
@@ -53,7 +53,13 @@
         />
         <PostsList :ref="'forum-' + index" :categoryId="category.id" />
       </b-collapse>
+      <hr />
     </div>
+    <b-row class="text-center">
+      <b-col>
+        <a v-if="!!nextPage" @click="loadMore()"> Carregar mais</a>
+      </b-col>
+    </b-row>
     <NewForum ref="new-forum" @salvar="salvar" />
   </div>
 </template>
@@ -131,22 +137,22 @@ export default {
         this.nextPage = resp.data.next;
       });
     },
-    listarCategorysNext() {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-        if (bottomOfWindow && this.nextPage) {
-          this.loadMore();
-        }
-      };
-    },
+    // listarCategorysNext() {
+    //   window.onscroll = () => {
+    //     let bottomOfWindow =
+    //       document.documentElement.scrollTop + window.innerHeight ===
+    //       document.documentElement.offsetHeight;
+    //     if (bottomOfWindow && this.nextPage) {
+    //       this.loadMore();
+    //     }
+    //   };
+    // },
   },
   beforeMount() {
     this.listarCategorys(this.userPerfilID);
   },
   async mounted() {
-    this.listarCategorysNext();
+    // this.listarCategorysNext();
     await this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
     this.isAdmin = this.$store.getters.isAdmin;

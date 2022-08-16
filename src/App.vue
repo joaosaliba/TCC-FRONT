@@ -6,7 +6,10 @@
 
 <script>
 // @ is an alias to /src
-
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import "bootstrap-vue/dist/bootstrap-vue-icons.min.css";
+import "@/assets/fonts/fontawesome/css/all.css";
 export default {
   name: "App",
   components: {},
@@ -14,7 +17,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@/assets/scss/vendors/bootstrap-vue/index";
+@import "@/assets/scss/vendors/bootstrap-vue/index";
 @import "assets/css/main.css";
 @import "~@/assets/fonts/fontawesome/css/all.css";
 
