@@ -1,5 +1,16 @@
 <template>
   <div>
+    <b-col class="text-right mb-4">
+      <b-btn
+        @click="newFormAdd"
+        pill
+        style="background-color: #0b4f6c; color: white"
+        size="lg"
+        v-if="isAdmin"
+      >
+        Novo Formulário
+      </b-btn>
+    </b-col>
     <b-col class="text-center mt-4" v-for="form in formList" :key="form.id">
       <h3 style="color: #0b4f6c">
         <i size="lg" class="fas fa-file mr-4" style=""></i>{{ form.title }}
@@ -16,21 +27,37 @@
         <a v-if="!!nextPage" @click="loadMore()"> Carregar mais</a>
       </b-col>
     </b-row>
+    <NewForm @salvar="newform" />
   </div>
 </template>
 
 <script>
+import NewForm from "@/components/Forms/NewForm";
 export default {
   name: "FormsLists",
+  components: { NewForm },
   data() {
     return {
       formList: [],
       nextPage: null,
+      isAdmin: false,
     };
   },
   methods: {
+    newform(form) {
+      const vm = this;
+      vm.$api.post(`/forms/`, form).then((resp) => {
+        this.getFormList();
+      });
+    },
+    newFormAdd() {
+      this.$bvModal.show("new-form");
+    },
     goto(link) {
-      window.open("http://" + link);
+      if (!(link.includes("http://") || link.includes("https://"))) {
+        this.form.link = "http://" + this.form.link;
+      }
+      window.open(link);
     },
     getFormList() {
       const vm = this;
@@ -54,6 +81,7 @@ export default {
   },
   mounted() {
     this.getFormList();
+    this.isAdmin = this.$store.getters.isAdmin;
   },
 };
 </script>
