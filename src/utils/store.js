@@ -40,6 +40,8 @@ const store = new Vuex.Store({
           context.commit("UPDATE_LOGIN", true);
 
           context.commit("UPDATE_USUARIO", resp.data);
+          if (resp.data.user_type == "Professor")
+            context.commit("UPDATE_ADMIN", true);
         })
         .catch((r) => {
           console.error(r);

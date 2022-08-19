@@ -25,7 +25,7 @@
           <b-avatar :src="post.created_by.picture" class="mr-4" />
 
           <b>{{ post.created_by.nome }}</b> postou no
-          <b>{{ !!post.category ? post.category.name : "Feed" }}</b>
+          <b>{{ wherePostFrom(post) }}</b>
         </b-col>
 
         <b-col class="text-right">
@@ -115,7 +115,7 @@ export default {
   components: {
     Comments,
   },
-  props: ["isProfile", "categoryId"],
+  props: ["isProfile", "categoryId", "groupId"],
   data() {
     return {
       posts: [],
@@ -125,6 +125,14 @@ export default {
     };
   },
   methods: {
+    wherePostFrom(post) {
+      if (post.category) {
+        return "Fórum " + post.category.name;
+      } else if (post.group) {
+        return "Grupo " + post.group.title;
+      }
+      return "Feed";
+    },
     downloadFile(post_file) {
       window.open(post_file);
     },
@@ -180,6 +188,7 @@ export default {
         page: 1,
         itens: 5,
         category: this.categoryId,
+        group: this.groupId,
       };
 
       this.posts = [];

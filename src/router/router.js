@@ -1,7 +1,8 @@
 import Perfil from "../views/Perfil.vue";
 import Feed from "@/views/Feed.vue";
 import Forum from "@/views/Forum.vue";
-import Formularios from "@/views/Formularios"
+import Formularios from "@/views/Formularios";
+import Groups from "@/views/Groups";
 
 export default [
   {
@@ -23,6 +24,11 @@ export default [
     path: "/formularios",
     name: "Formularios",
     component: Formularios,
+  },
+  {
+    path: "/grupos",
+    name: "Grupos",
+    component: Groups,
   },
   {
     path: "*",

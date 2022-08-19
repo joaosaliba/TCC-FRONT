@@ -34,7 +34,7 @@ export default {
         { nome: "Feed", rota: "/feed" },
         { nome: "Perfil", rota: "/perfil" },
         { nome: "Fórum", rota: "/forum" },
-        // { nome: "Grupos", rota: "/grupos" },
+        { nome: "Grupos", rota: "/grupos" },
         { nome: "Formulários", rota: "/formularios" },
       ],
     };

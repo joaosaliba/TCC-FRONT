@@ -4,7 +4,7 @@
       <b-col>
         <h4 style="color: #0b4f6c">
           <i class="fas fa-list fa-fw" />
-          <a><b> Fórum </b></a>
+          <a><b> Grupos </b></a>
         </h4>
       </b-col>
       <b-col class="text-right mb-4">
@@ -14,48 +14,68 @@
           style="background-color: #0b4f6c; color: white"
           size="lg"
         >
-          Novo Fórum
+          Novo Grupo
         </b-btn>
       </b-col>
     </b-row>
-    <div v-for="(category, index) in categorys" :key="category.id">
+    <div v-for="(group, index) in groups" :key="group.id">
       <b-row>
         <b-col>
           <h5 style="color: #0b4f6c" @click="toggleCollapsed(index)">
             <a
-              ><b> {{ category.name }} </b></a
+              ><b> {{ group.title }} </b></a
             >
-            <span v-if="collapsed[index]" class="fas fa-minus" />
+            <span
+              v-if="collapsed[index] && atualUserParticipa(group)"
+              class="fas fa-minus"
+            />
             <span v-else class="fas fa-plus" />
           </h5>
         </b-col>
 
         <b-col class="text-right">
+          <b> {{ group.participants_count }}</b>
           <small style="color: #0b4f6c">
-            <b> {{ category.participants_count }}</b>
             {{
-              category.participants_count > 1 ? "participantes" : "participante"
+              group.participants_count > 1 ? "participantes" : "participante"
             }}</small
           >
 
           <i
-            v-if="isAdmin || category.created_by.id == user.id"
-            @click="deleteCategory(category.id)"
+            v-if="
+              (isAdmin || group.created_by.id == user.id) &&
+              atualUserParticipa(group)
+            "
+            @click="deleteGroup(group.id)"
             variant="danger"
             class="fas fa-trash danger ml-2"
           />
         </b-col>
       </b-row>
+      <b-row>
+        <b-col class="text-right">
+          <b-btn
+            size="sm"
+            pill
+            @click="joinOrUnJoinGroup(group, index)"
+            :variant="
+              atualUserParticipa(group) ? 'outline-danger' : 'outline-success'
+            "
+          >
+            {{ atualUserParticipa(group) ? "Sair" : "Participar" }}
+          </b-btn>
+        </b-col></b-row
+      >
       <b-collapse v-model="collapsed[index]">
         <NewPost
+          v-if="collapsed[index] && atualUserParticipa(group)"
           @atualizarPost="atualizarLista(index)"
-          :categoryId="category.id"
-          v-if="collapsed[index]"
+          :groupId="group.id"
         />
         <PostsList
-          v-if="collapsed[index]"
+          v-if="collapsed[index] && atualUserParticipa(group)"
           :ref="'forum-' + index"
-          :categoryId="category.id"
+          :groupId="group.id"
         />
       </b-collapse>
       <hr />
@@ -65,24 +85,24 @@
         <a v-if="!!nextPage" @click="loadMore()"> Carregar mais</a>
       </b-col>
     </b-row>
-    <NewForum ref="new-forum" @salvar="salvar" />
+    <NewGroup ref="new-group" @salvar="salvar" />
   </div>
 </template>
 
 <script>
 import PostsList from "@/components/Post/PostsList";
 import NewPost from "@/components/Post/NewPost";
-import NewForum from "@/components/Forum/NewForum";
+import NewGroup from "@/components/Groups/NewGroup";
 export default {
   name: "ForumList",
   components: {
     PostsList,
     NewPost,
-    NewForum,
+    NewGroup,
   },
   data() {
     return {
-      categorys: [],
+      groups: [],
       nextPage: null,
       collapsed: [],
       user: {},
@@ -90,12 +110,24 @@ export default {
     };
   },
   methods: {
-    deleteCategory(id) {
+    async joinOrUnJoinGroup(group, index) {
+      const vm = this;
+      return await vm.$api
+        .post(`group/join/${group.id}/`)
+        .then((resp) => {
+          group = resp.data.results[0];
+          this.$set(this.groups, index, group);
+        })
+        .catch((e) => {
+          vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
+        });
+    },
+    deleteGroup(id) {
       const vm = this;
       vm.$api
-        .delete(`category/${id}/`)
+        .delete(`group/${id}/`)
         .then((resp) => {
-          this.categorys = this.categorys.filter((p) => p.id != id);
+          this.groups = this.groups.filter((p) => p.id != id);
         })
         .catch((e) => {
           vm.$refs["alerta"].mostraErroSimples("Erro", e.response.data);
@@ -104,31 +136,30 @@ export default {
     salvar(descricao) {
       const vm = this;
       let obj = {
-        name: descricao.toUpperCase(),
-        is_active: true,
+        title: descricao.toUpperCase(),
       };
-      vm.$api.post(`/category/`, obj).then((resp) => {
-        this.listarCategorys();
+      vm.$api.post(`/group/`, obj).then((resp) => {
+        this.listarGrupos();
       });
     },
     newForumAdd() {
-      this.$bvModal.show("new-forum");
-      this.$refs["new-forum"].descricao = "";
+      this.$bvModal.show("new-group");
+      this.$refs["new-group"].descricao = "";
     },
     atualizarLista(index) {
-      this.$refs["forum-" + index].limparEListarPostsFollowing();
+      this.$refs["group-" + index].limparEListarPostsFollowing();
     },
     toggleCollapsed: function (i) {
       this.$set(this.collapsed, i, !this.collapsed[i]);
     },
-    listarCategorys() {
+    listarGrupos() {
       const vm = this;
 
-      this.categorys = [];
+      this.groups = [];
       vm.$api
-        .get(`category/?page=1&itens=5`)
+        .get(`group/?page=1&itens=5`)
         .then((resp) => {
-          resp.data.results.forEach((p) => this.categorys.push(p));
+          resp.data.results.forEach((p) => this.groups.push(p));
           this.nextPage = resp.data.next;
         })
         .catch((e) => {
@@ -137,12 +168,12 @@ export default {
     },
     loadMore() {
       this.$api.get(`${this.nextPage}`).then((resp) => {
-        resp.data.results.forEach((p) => this.categorys.push(p));
+        resp.data.results.forEach((p) => this.groups.push(p));
 
         this.nextPage = resp.data.next;
       });
     },
-    // listarCategorysNext() {
+    // listarGruposNext() {
     //   window.onscroll = () => {
     //     let bottomOfWindow =
     //       document.documentElement.scrollTop + window.innerHeight ===
@@ -152,12 +183,18 @@ export default {
     //     }
     //   };
     // },
+    atualUserParticipa(group) {
+      if (group.participants != undefined) {
+        return group.participants.includes(this.user.id);
+      }
+    },
   },
+
   beforeMount() {
-    this.listarCategorys(this.userPerfilID);
+    this.listarGrupos(this.userPerfilID);
   },
   async mounted() {
-    // this.listarCategorysNext();
+    // this.listarGruposNext();
     await this.$store.dispatch("getUsuario");
     this.user = this.$store.getters.getUser;
     this.isAdmin = this.$store.getters.isAdmin;

@@ -72,7 +72,7 @@
 <script>
 export default {
   name: "NewPost",
-  props: ["categoryId"],
+  props: ["categoryId", "groupId"],
   data() {
     return {
       post: {
@@ -123,6 +123,7 @@ export default {
       if (vm.post.img) data.append("post_image", vm.post.img);
       if (vm.post.file) data.append("post_file", vm.post.file);
       if (vm.categoryId) data.append("category", vm.categoryId);
+      if (vm.groupId) data.append("group", vm.groupId);
       vm.$api
         .post("post/", data, {
           headers: {
