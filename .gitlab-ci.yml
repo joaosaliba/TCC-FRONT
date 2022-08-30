@@ -19,7 +19,7 @@ deploy:
                                                                          git pull origin master  --rebase &&
                                                                        docker stop frontend || true && 
                                                                        docker rm frontend || true &&
-                                                                       docker-compose up -d "                                                                      
+                                                                       docker-compose up --build -d "                                                                      
   environment:
     name: production
     url: http://redefelicidade.duckdns.org
