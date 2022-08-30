@@ -10,6 +10,7 @@
         <Followers v-if="$route.path == '/feed' || $route.path == '/perfil'" />
       </div>
     </div>
+    <ModalHanking />
   </div>
 </template>
 
@@ -18,6 +19,7 @@
 import Header from "@/components/Geral/Header.vue";
 import SideMenu from "@/components/Geral/SideMenu.vue";
 import Followers from "@/components/Geral/Followers";
+import ModalHanking from "@/components/Geral/ModalHanking";
 
 export default {
   name: "ViewAfterLogin",
@@ -25,6 +27,13 @@ export default {
     Header,
     SideMenu,
     Followers,
+    ModalHanking,
+  },
+  mounted() {
+    let modalHanking = this.$route.query.modalHanking;
+    if (modalHanking) {
+      this.$bvModal.show("modal-hanking");
+    }
   },
 };
 </script>

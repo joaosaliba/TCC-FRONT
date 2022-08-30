@@ -99,7 +99,7 @@ export default {
           setTimeout(() => {
             this.$router.push({
               path: "/feed",
-              query: { userId: user.id },
+              query: { userId: user.id, modalHanking: true },
             });
           }, 50);
         })

@@ -35,7 +35,7 @@
             </b>
           </small>
           <i
-            v-if="post.created_by.id == user.id"
+            v-if="post.created_by.id == user.id && hankingList == null"
             @click="deletePost(post.id)"
             variant="danger"
             class="fas fa-trash danger ml-2"
@@ -115,7 +115,7 @@ export default {
   components: {
     Comments,
   },
-  props: ["isProfile", "categoryId", "groupId"],
+  props: ["isProfile", "categoryId", "groupId", "hankingList"],
   data() {
     return {
       posts: [],
@@ -124,6 +124,7 @@ export default {
       user: {},
     };
   },
+
   methods: {
     wherePostFrom(post) {
       if (post.category) {
@@ -219,6 +220,19 @@ export default {
         }
       };
     },
+    bringHankingList() {
+      let querys = {
+        page: 1,
+        itens: 5,
+        like: this.hankingList,
+      };
+      this.posts = [];
+
+      this.$api.get(`postlike/ranking/`, { params: querys }).then((resp) => {
+        resp.data.results.forEach((p) => this.posts.push(p));
+        this.nextPage = resp.data.next;
+      });
+    },
   },
   computed: {
     userPerfilID() {
@@ -231,7 +245,13 @@ export default {
     },
   },
   beforeMount() {
-    this.listarPostsFollowing(this.userPerfilID);
+    if (this.hankingList == true) {
+      return this.bringHankingList();
+    } else if (this.hankingList == false) {
+      return this.bringHankingList();
+    } else if (this.hankingList == null || this.hankingList == undefined) {
+      return this.listarPostsFollowing(this.userPerfilID);
+    }
   },
   async mounted() {
     this.listarPostsFollowingNext();
