@@ -2,6 +2,16 @@
   <nav class="sideMenu text-center">
     <!-- <b-col cols="1" class="justify-content-center mt-5"> -->
     <div>
+      <b-btn
+        class="my-1"
+        v-if="userLogado.user_type == 'Professor'"
+        @click="changeUserType(user)"
+        :variant="userIsProfessor ? 'outline-danger' : 'outline-success'"
+        size="sm"
+        pill
+      >
+        {{ user.user_type }}
+      </b-btn>
       <div class="foto-perfil">
         <img :src="user.picture" alt="foto-perfil " />
       </div>
@@ -129,12 +139,29 @@ export default {
     showModal() {
       this.$bvModal.show("modal-perfil");
     },
+    changeUserType(user) {
+      const vm = this;
+
+      user.user_type = user.user_type == "Professor" ? "Aluno" : "Professor";
+      let data = new FormData();
+      data.append("user_type", user.user_type);
+      vm.$api
+        .patch("user/" + user.id + "/", data)
+        .then((resp) => {
+          console.log(resp);
+          this.pegarUsuario();
+        })
+        .catch((e) => {});
+    },
   },
   computed: {
     atualUserAtualSegue() {
       return this.user.profile.follower.length > 0
         ? this.user.profile.follower.includes(this.userLogado.email)
         : false;
+    },
+    userIsProfessor() {
+      return this.user.user_type == "Professor";
     },
     userPerfilID() {
       return this.$route.query.userId;

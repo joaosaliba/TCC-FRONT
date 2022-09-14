@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-modal id="modal-hanking" size="lg" class="mr-4 modal" hide-header>
-      <b-tabs lazy justified>
+      <b-tabs justified>
         <b-tab active title="Mais Likes">
           <h4>Hanking Mais curtidas</h4>
           <!-- {{ hankingList }} -->
